@@ -1,0 +1,17 @@
+run_module_suite
+np
+path
+assert_array_equal
+pickle
+textwrap
+test_find_duplicate
+collections
+TestFromrecords
+assert_array_almost_equal
+TestRecord
+assert_raises
+assert_
+warnings
+assert_warns
+sys
+assert_equal

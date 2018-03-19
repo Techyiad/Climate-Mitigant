@@ -1,0 +1,7 @@
+csrf_input
+format_html
+csrf_token_lazy
+SafeText
+get_token
+lazy
+csrf_input_lazy

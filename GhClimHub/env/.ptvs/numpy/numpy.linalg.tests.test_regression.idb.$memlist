@@ -1,0 +1,16 @@
+run_module_suite
+transpose
+assert_array_equal
+float64
+dot
+TestRegression
+arange
+linalg
+np
+array
+assert_raises
+assert_
+warnings
+assert_array_less
+assert_array_almost_equal
+assert_equal

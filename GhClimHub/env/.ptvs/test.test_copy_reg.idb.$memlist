@@ -1,0 +1,14 @@
+copy_reg
+C
+_WithLeadingUnderscoreAndPrivate
+CopyRegTestCase
+test_support
+WithoutSlots
+WithWeakref
+ExtensionSaver
+test_main
+___
+WithPrivate
+WithSingleString
+WithInherited
+unittest

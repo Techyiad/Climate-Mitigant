@@ -1,0 +1,13 @@
+€}qUmembersq}q(U_nat_stringsq}q(UkindqUdataqUvalueq}q	Utypeq
+]qU__builtin__qUset†qasuU__builtins__q}q(hhh}qh
+]qhUmodule†qasuU__file__q}q(hhh}qh
+]qhUstr†qasuU__package__q}q(hhh}qh
+]qhasuUsysq}q(hhh}qh
+]qhasuU__pyx_capi__q }q!(hhh}q"h
+]q#hUdict†q$asuU__test__q%}q&(hhh}q'h
+]q(h$asuU__name__q)}q*(hhh}q+h
+]q,hasuUcast_from_unitq-}q.(hUfunctionq/h}q0(U	overloadsq1]q2}q3(Udocq4Uz return a casting of the unit represented to nanoseconds
+        round the fractional part of a float to our precision, p Uargsq5}q6(U
+arg_formatq7U*Unameq8h5u}q9(h7U**q:h8Ukwargsq;u†uah4Uz return a casting of the unit represented to nanoseconds
+        round the fractional part of a float to our precision, p uuU__doc__q<}q=(hhh}q>h
+]q?hUNoneType†q@asuus.

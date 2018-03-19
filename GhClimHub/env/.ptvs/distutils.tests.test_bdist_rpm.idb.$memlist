@@ -1,0 +1,16 @@
+sys
+tempfile
+DistutilsExecError
+os
+run_unittest
+support
+BuildRpmTestCase
+Distribution
+spawn
+test_suite
+find_executable
+SETUP_PY
+shutil
+zlib
+unittest
+bdist_rpm

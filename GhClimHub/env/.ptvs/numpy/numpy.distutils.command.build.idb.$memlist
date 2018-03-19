@@ -1,0 +1,6 @@
+show_fortran_compilers
+old_build
+os
+build
+sys
+get_platform

@@ -1,0 +1,6 @@
+write_file
+install
+old_install
+have_setuptools
+old_install_mod
+sys

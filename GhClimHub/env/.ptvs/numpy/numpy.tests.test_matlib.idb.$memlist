@@ -1,0 +1,13 @@
+run_module_suite
+np
+test_zeros
+assert_array_equal
+test_repmat
+test_eye
+test_randn
+numpy
+test_identity
+test_ones
+test_empty
+assert_
+test_rand

@@ -1,0 +1,17 @@
+run_module_suite
+TestSharedExtension
+TestMinrelpath
+appendpath
+test_installed_npymath_ini
+minrelpath
+sep
+join
+get_info
+assert_
+dirname
+ajoin
+gpaths
+get_shared_lib_extension
+TestGpaths
+TestAppendpath
+assert_equal

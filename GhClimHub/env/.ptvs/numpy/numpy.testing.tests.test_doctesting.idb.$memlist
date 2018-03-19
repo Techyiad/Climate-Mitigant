@@ -1,0 +1,8 @@
+check_whitespace_enabled
+nose
+check_random_directive
+NumpyDoctest
+check_skip
+argv
+check_implicit_np
+check_empty_output

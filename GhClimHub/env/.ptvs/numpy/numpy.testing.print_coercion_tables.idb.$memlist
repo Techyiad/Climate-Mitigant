@@ -1,0 +1,4 @@
+print_coercion_table
+GenericObject
+np
+print_cancast_table

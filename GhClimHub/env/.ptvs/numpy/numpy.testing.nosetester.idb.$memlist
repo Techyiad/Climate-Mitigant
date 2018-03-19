@@ -1,0 +1,8 @@
+import_nose
+run_module_suite
+_numpy_tester
+np
+suppress_warnings
+NoseTester
+__all__
+get_package_name

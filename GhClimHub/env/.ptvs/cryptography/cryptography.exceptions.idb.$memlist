@@ -1,0 +1,10 @@
+InvalidSignature
+AlreadyFinalized
+InternalError
+InvalidTag
+AlreadyUpdated
+_Reasons
+InvalidKey
+NotYetFinalized
+UnsupportedAlgorithm
+Enum

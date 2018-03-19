@@ -1,0 +1,12 @@
+h_template
+c_template
+numpy_api
+os
+do_generate_api
+generate_api
+c_api_header
+genapi
+BoolValuesApi
+GlobalVarApi
+FunctionApi
+TypeApi

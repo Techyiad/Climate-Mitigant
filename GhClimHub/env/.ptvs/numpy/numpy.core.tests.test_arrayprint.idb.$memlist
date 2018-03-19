@@ -1,0 +1,14 @@
+run_module_suite
+np
+test_unicode_object_array
+gc
+TestComplexArray
+TestPrintOptions
+textwrap
+assert_warns
+sys
+TestArrayRepr
+assert_raises
+assert_
+TestArray2String
+assert_equal

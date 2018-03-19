@@ -1,0 +1,8 @@
+LOGGER
+NAMESPACE
+logging
+memcache
+DISCOVERY_DOC_MAX_AGE
+Cache
+cache
+base

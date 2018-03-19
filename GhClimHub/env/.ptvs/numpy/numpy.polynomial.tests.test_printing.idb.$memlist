@@ -1,0 +1,5 @@
+run_module_suite
+TestRepr
+TestStr
+poly
+assert_equal

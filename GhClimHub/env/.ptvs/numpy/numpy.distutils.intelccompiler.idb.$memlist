@@ -1,0 +1,10 @@
+find_executable
+IntelCCompiler
+IntelEM64TCCompiler
+simple_version_match
+platform
+IntelEM64TCCompilerW
+IntelCCompilerW
+UnixCCompiler
+MSVCCompiler
+IntelItaniumCCompiler

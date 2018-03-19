@@ -1,0 +1,15 @@
+TestBootstrappingMainFunction
+fake_pip
+TestEnsurePipVersion
+os
+TestUninstall
+TestBootstrap
+unittest
+TestUninstallationMainFunction
+EXPECTED_VERSION_OUTPUT
+EnsurepipMixin
+ensurepip
+mock
+contextlib
+sys
+test

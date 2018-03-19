@@ -1,0 +1,14 @@
+_hack_at_distutils
+cStringIO
+os
+VerificationError
+get_extension
+flatten
+LIST_OF_FILE_NAMES
+_flatten
+samefile
+compile
+_build
+int_or_long
+sys
+maybe_relative_path

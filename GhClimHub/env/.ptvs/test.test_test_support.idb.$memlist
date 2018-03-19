@@ -1,0 +1,15 @@
+support
+importlib
+os
+socket
+ClassicClass
+tempfile
+NewStyleClass
+shutil
+stat
+test_main
+TestSupport
+TESTFN
+errno
+sys
+unittest

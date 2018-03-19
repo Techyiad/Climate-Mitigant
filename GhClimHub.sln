@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GhClimHub", "GhClimHub\GhClimHub.pyproj", "{3EBDDC33-9A99-4D4B-B7A9-03518E300BD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EBDDC33-9A99-4D4B-B7A9-03518E300BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EBDDC33-9A99-4D4B-B7A9-03518E300BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EBDDC33-9A99-4D4B-B7A9-03518E300BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EBDDC33-9A99-4D4B-B7A9-03518E300BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C379A61-4A41-4B16-A320-ED38CD035813}
+	EndGlobalSection
+EndGlobal

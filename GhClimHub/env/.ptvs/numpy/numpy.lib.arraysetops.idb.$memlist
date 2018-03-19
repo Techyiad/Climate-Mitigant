@@ -1,0 +1,11 @@
+setxor1d
+in1d
+intersect1d
+union1d
+np
+unique
+_unique1d
+__all__
+setdiff1d
+isin
+ediff1d

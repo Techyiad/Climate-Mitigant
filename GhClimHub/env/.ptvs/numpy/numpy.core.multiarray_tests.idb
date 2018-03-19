@@ -1,0 +1,61 @@
+Ä}qUmembersq}q(Unpy_coshq}q(UkindqUfunctionqUvalueq}q	U	overloadsq
+NsuUnpy_tanlq}q(hhh}qh
+NsuUextint_add_128q}q(hhh}qh
+NsuU	npy_tanhlq}q(hhh}qh
+NsuUsolve_diophantineq}q(hhh}qh
+NsuU	npy_tanhfq}q(hhh}qh
+NsuUextint_gt_128q}q(hhh}qh
+NsuUtest_neighborhood_iteratorq}q(hhh}qh
+NsuUincref_elideq }q!(hhh}q"h
+NsuU	npy_carglq#}q$(hhh}q%h
+NsuUextint_mul_64_64q&}q'(hhh}q(h
+NsuU	npy_cargfq)}q*(hhh}q+h
+NsuUtest_inplace_incrementq,}q-(hhh}q.h
+NsuUtest_as_c_arrayq/}q0(hhh}q1h
+NsuUincref_elide_lq2}q3(hhh}q4h
+NsuU!test_pydatamem_seteventhook_startq5}q6(hhh}q7h
+NsuUextint_neg_128q8}q9(hhh}q:h
+NsuUextint_ceildiv_128_64q;}q<(hhh}q=h
+NsuUinternal_overlapq>}q?(hhh}q@h
+NsuUIsPythonScalarqA}qB(hhh}qCh
+NsuU	npy_coshfqD}qE(hhh}qFh
+NsuUarray_indexingqG}qH(hhh}qIh
+NsuU__package__qJ}qK(hUdataqLh}qMUtypeqN]qOU__builtin__qPUNoneTypeÜqQasuU	npy_sinhfqR}qS(hhh}qTh
+NsuUextint_shr_128qU}qV(hhh}qWh
+NsuUextint_divmod_128_64qX}qY(hhh}qZh
+NsuU	npy_sinhlq[}q\(hhh}q]h
+NsuU__doc__q^}q_(hhLh}q`hN]qahQasuU	npy_coshlqb}qc(hhh}qdh
+NsuUextint_to_128qe}qf(hhh}qgh
+NsuUget_fpu_modeqh}qi(hhh}qj(h
+]qk}ql(UdocqmUvGet the current FPU control word, in a platform-dependent format.
+Returns None if not implemented on current platform.Uargsqn)uahmUÜget_fpu_mode()
+
+Get the current FPU control word, in a platform-dependent format.
+Returns None if not implemented on current platform.uuUtest_neighborhood_iterator_oobqo}qp(hhh}qqh
+NsuUnpy_tanqr}qs(hhh}qth
+NsuUtest_nditer_too_largequ}qv(hhh}qwh
+NsuU__file__qx}qy(hhLh}qzhN]q{hPUstrÜq|asuUget_buffer_infoq}}q~(hhh}qh
+NsuUextint_shl_128qÄ}qÅ(hhh}qÇh
+NsuUnpy_resolveqÉ}qÑ(hhh}qÖh
+NsuUextint_safe_binopqÜ}qá(hhh}qàh
+NsuUnpy_create_writebackifcopyqâ}qä(hhh}qãh
+NsuU__name__qå}qç(hhLh}qéhN]qèh|asuU
+npy_log10lqê}që(hhh}qíh
+NsuUnpy_updateifcopy_deprecationqì}qî(hhh}qïh
+NsuUextint_to_64qñ}qó(hhh}qòh
+NsuUtest_pydatamem_seteventhook_endqô}qö(hhh}qõh
+NsuU	npy_cabsfqú}qù(hhh}qûh
+NsuU
+npy_log10fqü}q†(hhh}q°h
+NsuUnpy_cabsq¢}q£(hhh}q§h
+NsuUnpy_tanfq•}q¶(hhh}qßh
+NsuU	npy_cabslq®}q©(hhh}q™h
+NsuUnpy_char_deprecationq´}q¨(hhh}q≠h
+NsuUnpy_cargqÆ}qØ(hhh}q∞h
+NsuUtest_int_subclassq±}q≤(hhh}q≥h
+NsuU	npy_log10q¥}qµ(hhh}q∂h
+NsuUnpy_tanhq∑}q∏(hhh}qπh
+NsuUextint_floordiv_128_64q∫}qª(hhh}qºh
+NsuUnpy_sinhqΩ}qæ(hhh}qøh
+NsuUextint_sub_128q¿}q¡(hhh}q¬h
+Nsuus.

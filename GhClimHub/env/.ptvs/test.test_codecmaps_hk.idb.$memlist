@@ -1,0 +1,5 @@
+test_support
+unittest
+TestBig5HKSCSMap
+multibytecodec_support
+test_main

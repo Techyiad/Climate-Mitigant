@@ -1,0 +1,601 @@
+﻿<!--
+author: Akoto Ian
+-->
+{% load staticfiles%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Ghana Climate Hub</title>
+<!-- custom-theme -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Viticulture Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+<!-- //custom-theme -->
+<link href="../../static/app/content/bootstrap.css" rel="stylesheet" />
+<link href="../../static/app/content/jquery.ui.core.min.css" rel="stylesheet" />
+
+<link href="../../static/app/content/style.css" rel="stylesheet" />
+
+<script src="../../static/app/scripts/jquery.filterizr.js"></script>
+
+<!-- js -->
+<script type="text/javascript" src="../../static/app/scripts/jquery-2.1.4.min.js"></script>
+<!-- //js -->
+<link rel="stylesheet" href="../../static/app/content/flexslider.css" type="text/css" media="screen" property="" />
+<!-- font-awesome-icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+	
+<body>
+<!-- header -->
+<div class="banner-top">
+			<div class="social-bnr-agileits">
+				<ul class="social-icons3">
+								<li><a href="#" class="fa fa-facebook icon-border facebook"> </a></li>
+								<li><a href="#" class="fa fa-twitter icon-border twitter"> </a></li>
+								<li><a href="#" class="fa fa-google-plus icon-border googleplus"> </a></li> 
+								<li><a href="#" class="fa fa-rss icon-border rss"> </a></li>
+							</ul>
+			</div>
+			<div class="contact-bnr-w3-agile">
+				<ul>
+					<li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:projectearthengine@gmail.com">PROJECTEARTHENGINE@GMAIL.COM</a></li>
+					<li><i class="fa fa-phone" aria-hidden="true"></i>+(233) 0501426384/0209104956</li>	
+					<li class="s-bar">
+						<div class="search">
+							<input class="search_box" type="checkbox" id="search_box">
+							<label class="icon-search" for="search_box"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></label>
+							<div class="search_form">
+								<form action="#" method="post">
+									<input type="search" name="Search" placeholder="Search "  />
+									<input type="submit" value="Search">
+								</form>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	<div class="w3_navigation">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="navbar-header navbar-left">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<h1><a class="navbar-brand" href="{%  url 'home' %}">GHANA <span>CLIMATE</span><p class="logo_w3l_agile_caption">HUB</p></a></h1>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+					<nav class="menu menu--iris">
+						<ul class="nav navbar-nav ">
+							<li class="menu__item menu__item--current"><a href="{% url 'home' %}" class="menu__link">Home</a></li>
+
+							<li class="menu__item"><a href="{% url 'dataset' %}" class="menu__link scroll">Dataset</a></li>
+
+
+
+							<li ><a href="{% url 'compare' %}" class="menu__link scroll">Drought Monitor</a></li>
+							
+							
+
+							<li class="menu__item"><a href="{% url 'mail' %}" class="menu__link scroll">Mail Us</a></li>
+							<li class="menu__item"><a href="{% url 'about' %}" class="menu__link scroll">About Us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</nav>
+
+		</div>
+	</div>
+<!-- //header -->
+		<!-- banner -->
+	<div id="home" class="w3ls-banner">
+		<!-- banner-text -->
+		<div class="slider">
+			<div class="callbacks_container">
+				<ul class="rslides callbacks callbacks1" id="slider4">
+					<li>
+						<div class="w3layouts-banner-top">
+
+							<div class="container">
+								<div class="agileits-banner-info">
+								<h4>Monitor Drought </h4>
+									<h3>Find out the drought condition over an area of interest</h3><br /><br /><br />
+								
+								<div class="agileits_w3layouts_more menu__item">
+											<a href="https://en.wikipedia.org/wiki/Drought" class="menu__link" >Learn More</a>
+										</div>
+								</div>	
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3layouts-banner-top w3layouts-banner-top1">
+							<div class="container">
+								<div class="agileits-banner-info">
+								<h4>Explore Datasets</h4>
+									<h3>Get datasets such as NDVI, EVI, NDWI and more for your Analysis</h3><br /><br /><br />
+									<div class="agileits_w3layouts_more menu__item">
+											<a href="https://en.wikipedia.org/wiki/Drought" class="menu__link" >Learn More</a>
+										</div>
+								</div>	
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3layouts-banner-top w3layouts-banner-top2">
+							<div class="container">
+								<div class="agileits-banner-info">
+								<h4>Predict Drought</h4>
+								<h3>Analyze vulnerable areas to drought and make evaluations to alleviate future drought </h3><br /><br /><br />
+								
+									<div class="agileits_w3layouts_more menu__item">
+											<a href="https://en.wikipedia.org/wiki/Drought" class="menu__link" >Learn More</a>
+										</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	
+
+			<div class="clearfix"> </div>
+			<!--banner Slider starts Here-->
+		</div>
+			<div class="thim-click-to-bottom">
+				<a href="#about" class="scroll">
+					<i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+				</a>
+			</div>
+	</div>	
+	<!-- //banner -->
+
+<!-- banner-bottom -->
+	<div class="banner-bottom">
+		<div class="container">
+		  <h3>Explore Datasets , Know your NDVI,Analyse your Data</h3>
+		  <div class="agileits_banner_bottom_grids">
+				<a href={% url 'dataset'%}>
+				<div class="col-md-3 agileits_banner_bottom_grid" onClick="dataset.html">
+					<div class="hovereffect w3ls_banner_bottom_grid">
+						<img src="../../static/app/images/7.jpg" alt=" " class="img-responsive" />
+						<div class="overlay" >
+						   <h4 window.location.href='/dataset.html'>Dataset</h4>
+						   <p>Explore Datasets</p>
+						</div>
+					</div>
+				</div>
+				</a>
+				<a href={% url 'compare'%}>
+				<div class="col-md-3 agileits_banner_bottom_grid">
+					<div class="hovereffect w3ls_banner_bottom_grid">
+						<img src="../../static/app/images/5.jpg" alt=" " class="img-responsive" />
+						<div class="overlay">
+						   <h4>Drought Monitor</h4>
+						   <p> System for Monitoring Drought</p>
+						</div>
+					</div>
+				</div>
+			  </a>
+			  <a href="#">
+				<div class="col-md-3 agileits_banner_bottom_grid">
+					<div class="hovereffect w3ls_banner_bottom_grid">
+						<img src="../../static/app/images/effectof drought.jpg" alt=" " class="img-responsive" />
+						<div class="overlay">
+						   <h4>Vulnerability Assessment</h4>
+						   <p>Vulnerability Test</p>
+						</div>
+					</div>
+				</div>
+			  </a>
+			  <a href="#">
+				<div class="col-md-3 agileits_banner_bottom_grid">
+					<div class="hovereffect w3ls_banner_bottom_grid">
+						<img src="../../static/app/images/Capture7.PNG" alt=" " class="img-responsive" />
+						<div class="overlay">
+						   <h4>Prediction</h4>
+						   <p>Predict Drought</p>
+						</div>
+					</div>
+				</div>
+			  </a>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<!-- //banner-bottom -->
+<!-- work -->
+	<div class="work">
+		<div class="container">
+			<h3 class="w3l_header">Our <span>Work</span></h3>
+		</div>
+		<div class="w3layouts_work_grids">
+			<section class="slider">
+				<div class="flexslider">
+					<ul class="slides">
+					
+						<li>
+						<div class="w3layouts_work_grid_left">
+								<img src="../../static/app/images/o-BIG-DATA-facebook.jpg" alt=" " class="img-responsive" />
+								<div class="w3layouts_work_grid_left_pos">
+									<img src="../../static/app/images/Capture7.PNG" alt=" " class="img-responsive" />
+								</div>
+							</div>
+							<div class="w3layouts_work_grid_right">
+								<h4>Drought Predicton Model</h4>
+								<h5>Foresee Drought Coming</h5>
+							<p class="h4">Predicting drought depends on the ability to forecast two fundamental meteorological surface parameters, precipitation and temperature. ... The potential for improved drought predictions 
+								in the near future differs by region, season, and climatic regime.</p>
+							</div>
+							<div class="clearfix"> </div>
+						</li>
+						<li>
+							<div class="w3layouts_work_grid_left">
+								<img src="../../static/app/images/o-BIG-DATA-facebook.jpg" alt=" " class="img-responsive" />
+								<div class="w3layouts_work_grid_left_pos">
+									<img src="../../static/app/images/MODIS1000062.jpg" alt=" " class="img-responsive" />
+								</div>
+							</div>
+							<div class="w3layouts_work_grid_right">
+								<h4>Vulnerability Assessment Models to Drought</h4>
+								<h5>Know Areas that are Vulnerable to Drought</h5>
+								<p class="h4">Recognizing the interactions between drought hazard and vulnerability
+that deﬁne the risk of serious impacts, and is one of the main aspects of drought mitigation and planning.
+								 The high economic cost and social vulnerability caused by problems from drought in recent years have led to an increase in attention to drought vulnerability. The losses due to drought events across the world also have signiﬁcantly increased in line with the increased number or severity of droughts
+								.So this Platform is to  expose  the individuals stress as a result of social and environmental change, stress in this context referring to unexpected change and the disruption of livelihoods </p>
+							</div>
+							<div class="clearfix"> </div>
+						</li>
+						<li>
+							<div class="w3layouts_work_grid_left">
+								<img src="../../static/app/images/o-BIG-DATA-facebook.jpg" alt=" " class="img-responsive" />
+								<div class="w3layouts_work_grid_left_pos">
+									<img src="../../static/app/images/soil moisture.png" alt=" " class="img-responsive" />
+								</div>
+							</div>
+							<div class="w3layouts_work_grid_right">
+								<h4>Drought Analysis</h4>
+								<h5>Perform Anyalysis on Drough Over Ghana</h5>
+								<p class="h4">Drought, a natural occurring climatic hazard is induced by dry hydro-meteorological conditions, mostly as a result
+								of reduction of rainfall amount over a certain period of time and characterized by a regional deficit in water availability.<br />
+								 This Tool Helps project seeks to develop a high resolution online National Drought Observatory , which will incorporate satellite data into monitoring rainfall, vegetation health and plant water stress to serve as an early drought warning system </p>
+							</div>
+							<div class="clearfix"> </div>
+						</li>
+						<li>
+							<div class="w3layouts_work_grid_left">
+								<img src="../../static/app/images/o-BIG-DATA-facebook.jpg" alt=" " class="img-responsive" />
+								<div class="w3layouts_work_grid_left_pos">
+									<img src="../../static/app/images/Capture2.PNG" alt=" " class="img-responsive" />
+								</div>
+							</div>
+							<div class="w3layouts_work_grid_right">
+								<h4>Explore Datasets</h4>
+								<h5>NDVI NDWI EVI </h5>
+								<p class="h4">NDVI- An indicator that describes the greenness as well as health of vegetation for each pixel. It is also chlorophyll sensitive<br/>
+
+								EVI- An optimized vegetation index designed to enhance vegetation signal but very sensitive to canopy structural variation.<br/>
+
+							   NDWI- It monitors changes in water content of leaves using NIR and SWIR wavelengths.
+
+ </p>
+							</div>
+							<div class="clearfix"> </div>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<!-- flexSlider -->
+				<script defer src="../../static/app/scripts/jquery.flexslider.js"></script>
+				<script type="text/javascript">
+				$(window).load(function(){
+				  $('.flexslider').flexslider({
+					animation: "slide",
+					start: function(slider){
+					  $('body').removeClass('loading');
+					}
+				  });
+				});
+			  </script>
+			<!-- //flexSlider -->
+		</div>	
+	</div>
+<!-- //work -->
+
+<!-- services -->
+	<div class="agileits-services" id="services">
+		<div class="container">
+			<div class="title-div">
+			<div class="container">
+			<h3 class="w3l_header">Our <span>Services</span></h3>
+		</div>
+				<div class="tittle-style">
+				</div>
+			</div>
+			<div class="agileits-services-row">
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-tint" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Save Water</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4">Knowledge of Drought condition in an area helps to take measures to preserve water</p>
+					
+				</div>
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-recycle" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Recycling</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4">Recycle waste vegetation to reduce polution and preserve the natural environment</p>
+				
+				</div>
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-tree" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Save Forests</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4"> Protection and Preservation of the cultural identity of the forest's populations and the natural resources including freshwater resources</p>
+		
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="agileits-services-row-2">
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-envira" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Plant Health</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4">Monitor Plant Health which is vital to sustainable and profitable crop production and to the quality and cost of the nation’s supply of food, fuel, and fiber</p>
+	
+				</div>
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-globe" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Awareness</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4">Know the climate conditions in your area</p>
+			
+				</div>
+				<div class="col-md-4 col-xs-6 agileits-services-grids">
+					<div class="col-xs-3 wthree-ser">
+						<i class="fa fa-pagelines" aria-hidden="true"></i>
+					</div>
+					<div class="col-xs-9 wthree-heading">
+						<h4>Plantation</h4>
+					</div>
+					<div class="clearfix"></div>
+					<p class="h4">Cultivate crops such as tea, coffee, cocoa, rubber, cotton, oil palm,e.t.c in areas that can trive to increase production</p>
+					
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //services -->
+
+
+
+<div class="team1" id="team">
+		<div class="container">
+		<div class="w3-heading-all">
+		<h3>Compute Methods</h3>
+	   </div>
+			<div class="team1-grids">
+				<ul class="ch-grid">
+					<li class="col-xs-6 ch-grid-item">
+						<div class="ch-item ch-img-1">
+				<img src="../../static/app/images/aha-data-chart-background.jpg" style="height:350px; width:500px; "/>
+						</div>
+						<div class="ch-info">
+							<h3>Image Statistics</h3>
+					
+						</div>
+					</li>
+					<li class="col-xs-6 ch-grid-item">
+						<div class="ch-item ch-img-2">
+			<img src="../../static/app/images/web2 (2).png" style="height:350px; width:500px; " />
+						</div>
+						<div class="ch-info">
+							<h3>Compute Drought Indices</h3>
+	
+						</div>
+					</li>
+					<li class="col-xs-6 ch-grid-item">
+						<div class="ch-item ch-img-3">
+		<img src="../../static/app/images/drought_compare.png" style="height:350px; width:500px; "/>
+						</div>
+						<div class="ch-info">
+							<h3>Compare  Indices</h3>
+				
+						</div>
+					</li>
+					<li class="col-xs-6 ch-grid-item">
+						<div class="ch-item ch-img-4">
+		<img src="../../static/app/images/drought page (2).png"  style="height:350px; width:500px; "/>
+						</div>
+						<div class="ch-info">
+							<h3>Predict Drought</h3>
+				
+						</div>
+					</li>
+				</ul>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+
+
+
+
+<!-- footer -->
+	<div class="footer">
+		<div class="container">
+			<div class="col-md-4 w3layouts_footer_grid">
+				<h2>Follow <span>Us</span></h2>
+				<ul class="social_agileinfo">
+					<li><a href="#" class="w3_facebook"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="#" class="w3_twitter"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#" class="w3_instagram"><i class="fa fa-instagram"></i></a></li>
+					<li><a href="#" class="w3_google"><i class="fa fa-google-plus"></i></a></li>
+				</ul>
+			</div>
+			<div class="col-md-8 w3layouts_footer_grid">
+				<form action="#" method="post">
+					<input type="email" name="Email" placeholder="Email..." required="">
+					<input type="submit" value="">
+				</form>
+				<ul class="w3l_footer_nav">
+					<li><a href="{% url 'home'%}">Home</a></li>
+					<li><a href="{% url 'dataset'%}">Dataset</a></li>
+
+					<li><a href="{% url 'compare'%}">Drought Monitor</a></li>
+					<li><a href="{% url 'mail'%}">Mail Us</a></li>
+					<li><a href="{% url 'about'%}">About Us</a></li>
+					
+				
+				</ul>
+
+				
+			</div>
+						<!--Earth engine Icon-->
+<div style="color: black" >	
+<a href="https://earthengine.google.org">
+ <img class="powered-by-ee" alt="Powered by Google Earth Engine"src="../../static/app/images/google_earthengine_powered_400px.png">
+	  </a>	
+</div>
+
+			<div class="clearfix"> </div>
+
+
+
+		</div>
+	</div>
+
+<script src="../../static/app/scripts/jquery.flexslider.js"></script>
+<script src="../../static/app/scripts/jquery.filterizr.js"></script>
+<!-- //footer -->
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="../../static/app/scripts/move-top.js"></script>
+<script type="text/javascript" src="../../static/app/scripts/easing.js"></script>
+
+<!-- start-smoth-scrolling -->
+<!-- for bootstrap working -->
+	<script src="../../static/app/scripts/bootstrap.js"></script>
+<!-- //for bootstrap working -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+
+	<script src="../../static/app/scripts/responsiveslides.min.js"></script>
+			<script>
+						// You can also use "$(window).load(function() {"
+						$(function () {
+						  // Slideshow 4
+						  $("#slider4").responsiveSlides({
+							auto: true,
+							pager:true,
+							nav:false,
+							speed: 500,
+							namespace: "callbacks",
+							before: function () {
+							  $('.events').append("<li>before event fired.</li>");
+							},
+							after: function () {
+							  $('.events').append("<li>after event fired.</li>");
+							}
+						  });
+					
+						});
+			</script>
+		<!--search-bar-->
+		<script src="../../static/app/scripts/main.js"></script>	
+<!--//search-bar-->
+<!--tabs-->
+
+<script src="../../static/app/scripts/easy-responsive-tabs.js"></script>
+<script>
+$(document).ready(function () {
+$('#horizontalTab').easyResponsiveTabs({
+type: 'default', //Types: default, vertical, accordion           
+width: 'auto', //auto or any width like 600px
+fit: true,   // 100% fit in a container
+closed: 'accordion', // Start closed if in accordion view
+activate: function(event) { // Callback function if tab is switched
+var $tab = $(this);
+var $info = $('#tabInfo');
+var $name = $('span', $info);
+$name.text($tab.text());
+$info.show();
+}
+});
+$('#verticalTab').easyResponsiveTabs({
+type: 'vertical',
+width: 'auto',
+fit: true
+});
+});
+</script>
+<!--//tabs-->
+<!-- smooth scrolling -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+		/*
+			var defaults = {
+			containerID: 'toTop', // fading element id
+			containerHoverID: 'toTopHover', // fading element hover id
+			scrollSpeed: 1200,
+			easingType: 'linear' 
+			};
+		*/								
+		$().UItoTop({ easingType: 'easeOutQuart' });
+		});
+	</script>
+	
+	<div class="arr-w3ls">
+	<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	</div>
+<!-- //smooth scrolling -->
+
+
+</body>
+</html>

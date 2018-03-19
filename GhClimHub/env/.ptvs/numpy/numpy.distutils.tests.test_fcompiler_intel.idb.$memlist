@@ -1,0 +1,7 @@
+intel_64bit_version_strings
+run_module_suite
+intel_32bit_version_strings
+TestIntelFCompilerVersions
+assert_
+TestIntelEM64TFCompilerVersions
+numpy

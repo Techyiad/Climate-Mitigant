@@ -1,0 +1,11 @@
+AmbiguityError
+python_2_unicode_compatible
+InvalidBasesError
+IrreversibleError
+InconsistentMigrationHistory
+BadMigrationError
+InvalidMigrationPlan
+NodeNotFoundError
+DatabaseError
+CircularDependencyError
+MigrationSchemaMissing

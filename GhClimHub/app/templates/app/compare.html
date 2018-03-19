@@ -1,0 +1,990 @@
+﻿<!--
+author: Akoto Ian
+-->
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Gh Drought Monitoring System</title>
+<!-- custom-theme -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Viticulture Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //custom-theme -->
+<link href="../../static/app/content/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../../static/app/content/style.css" rel="stylesheet" type="text/css" media="all" />
+
+<script src="../../static/app/scripts/jquery-2.1.4.min.js"></script>
+<!-- //js -->
+<!-- font-awesome-icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<link href="../../static/app/content/jquery.ui.datepicker.min.css" rel="stylesheet" />
+<link href="../../static/app/content/jquery.ui.core.min.css" rel="stylesheet" />
+	<script src="../../static/app/scripts/jquery-1.11.1.min.js"></script>
+
+<link href="../../static/app/content/jquery.ui.core.min.css" rel="stylesheet" />
+	<script src="../../static/app/scripts/jquery.ui-1.10.4.datepicker.min.js"></script>
+	
+<link href="../../static/app/content/al.css" rel="stylesheet" />
+<link href="../../static/app/content/drought_style.css" rel="stylesheet" />
+
+<link href="../../static/app/content/jquery-ui.css" rel="stylesheet" />
+
+<link href="../../static/app/content/rSlider.min.css" rel="stylesheet" />
+	
+
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+
+
+	#mydiv {
+	position: absolute;
+	z-index: 9;
+	background-color: #f1f1f1;
+	text-align: center;
+	border: 1px solid #d3d3d3;
+}
+
+#mydivheader {
+	padding: 10px;
+	cursor: move;
+	z-index: 10;
+	background-color: #2196F3;
+	color: #fff;
+}
+
+	.leg {
+		background-color: #fff;
+		border: 1px solid #bbb;
+		margin: 10px;
+		font-size:x-large;
+
+	}
+	 .color{
+		border: 1px solid;
+		height: 12px;
+		width: 12px;
+		margin-right: 3px;
+		float: left;
+	  }
+
+	
+		#legend {
+		border-radius: 5px;
+		background: white;
+		padding: 5px;
+		margin: 10px;
+		z-index:1;
+		width:220px;
+		height:300px;
+
+		transition: all 0.5s ease  0.5s !important;
+	}
+	#legend:hover {
+		box-shadow: 0 0 112px 10px #1cd3ef;
+	} 
+	   #map {
+	height: 100%;
+	width:100%;
+
+	   }
+
+		   #map1 {
+	height: 100%;
+	width:100%;
+
+	   }
+
+				   #map2 {
+	height: 100%;
+	width:100%;
+
+	   }
+
+						   #map3 {
+	height: 100%;
+	width:100%;
+
+	   }
+	
+								   #map4 {
+	height: 100%;
+	width:100%;
+
+	   }
+
+	
+	
+	</style>
+
+
+</head>
+	
+<body style=" background-image: url('../../static/app/images/dfr.jpeg');">
+
+
+
+
+<!-- banner -->
+	<div class="w3_navigation">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="navbar-header navbar-left">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<h1>
+<a class="navbar-brand" href="{%  url 'home' %}">GHANA <span>CLIMATE</span>
+<p class="logo_w3l_agile_caption">HUB</p></a></h1>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+					<nav class="menu menu--iris">
+						<ul class="nav navbar-nav ">
+							<li class="menu__item menu__item--current">
+<a href="{% url 'home' %}" class="menu__link">Home</a></li>
+
+							<li class="menu__item">
+<a href="{% url 'dataset' %}" class="menu__link scroll">Dataset</a></li>
+
+
+
+							<li >
+<a href="{% url 'compare' %}" class="menu__link scroll" >Drought Monitor</a></li>
+							
+							
+
+							<li class="menu__item">
+<a href="{% url 'mail' %}" class="menu__link scroll">Mail Us</a></li>
+							<li class="menu__item">
+<a href="{% url 'about' %}" class="menu__link scroll" >About Us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</nav>
+
+		</div>
+	</div>
+<!-- //banner -->
+<!-- LAYERS -->
+<div class="clearfix"> </div>
+
+	<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+	
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Computing Error</h4>
+		</div>
+		<div class="modal-body">
+		 
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	  
+	</div>
+  </div>
+  
+
+
+
+
+
+
+<div class="row">
+
+<div id="alBox"></div>
+
+
+
+<div class="col-sm-3  sideb" style="background-color: white">
+
+		<!-- SideNav Menu -->
+<div class="container">
+
+  <ul class="nav nav-tabs">
+	<li  id="md1"  class="active" >
+<a data-toggle="tab" href="#indices">Drought Indices</a></li>
+	<li id="md2" >
+<a data-toggle="tab" href="#compare">Compare Indices</a></li>
+  </ul>
+
+  <div class="tab-content">
+	<div id="indices" class="tab-pane fade in active ">
+		
+
+			<form  method="post" action="{% url  'compare' %} " id="indices_compute_form" >
+
+					 {% csrf_token %}
+<br	/>
+<label>Select Drought Indices </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="datasource_spi" id="datasource_spi">
+				  <option value="ndwi anomaly" name="ndwi anomaly">NDWI Anomaly</option>
+	 <option value="ndvi anomaly" name="ndvi anomaly">NDVI Anomaly </option>
+	 <option value="precipitation" name="precipitation">Precipitation</option>
+	 <option value="spi" name="spi">SPI(Standardized Precipitation Index)</option>
+	 <option value="smi" name="smi">SMI(Soil Moisture Index)</option>
+	 <option value="lst" name="lst">LST(Land Surface Temperature)</option>
+	 <option value="vhi" name="vhi">VHI(Vegetation Health Index)</option>
+	
+				</select><br/><br/>
+
+<label for="satelite" id="stext">Select Satelite Mission </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="satelite" id="satelite">
+				  <option value="landsat" name="landsat">LANDSAT DATA</option>
+	 <option value="modis" name="modis">MODIS DATA</option>
+	 <option value="avhrr" name="avhrr">Advanced Very High Resolution Radiometer(AVHRR)</option>
+				</select><br/><br/>
+
+<div class="panel panel-success ">
+	<div class="panel-heading">
+					<h3 class="panel-title">Brief Overview of Indices</h3>
+				</div>
+				<div class="panel-body"><p id="indices_discription" class="panel panel-large">NDVI anomaly is the difference between the average NDVI for a particular month of a given year and the average NDVI for the same month over a specified number of years. This approach can be used to characterize the health of vegetation for a particular month and year relative to what is considered normal, which is a good indicator of drought or declining vegetation health</p></div>	
+</div>
+
+
+		<br />
+
+<div class="panel panel-danger">
+	<div class="panel-heading">
+					<h4 class="panel-title">Date Panel</h4>
+				</div>
+				<div class="panel-body"><p  class="panel panel-large">Select Month for Computing the Drought Indices</p><br />
+	<p  id="ps_type" hidden="hidden" ></p>
+
+
+<label>Select  month </label><br /><br/>
+
+	<fieldset class="date"> 
+
+  <select id="month_indices"
+		  name="month_indices" /> 
+	<option value="1">January</option>       
+	<option value="2">February</option>       
+	<option value="3">March</option>       
+	<option value="4">April</option>       
+	<option value="5">May</option>       
+	<option value="6">June</option>       
+	<option value="7">July</option>       
+	<option value="8">August</option>       
+	<option value="9">September</option>       
+	<option value="10">October</option>       
+	<option value="11">November</option>       
+	<option value="12">December</option>       
+  </select> -</select> - 
+  <select id="year_indices" 
+		 name="year_indices"  />
+	  
+	<option>1982</option>       
+	<option>1983</option>       
+	<option>1984</option>       
+	<option>1985</option>       
+	<option>1986</option>       
+	<option>1987</option>       
+	<option>1988</option>       
+	<option>1989</option>   
+	<option>1990</option>       
+	<option>1991</option>       
+	<option>1992</option>       
+	<option>1993</option>       
+	<option>1994</option>       
+	<option>1995</option>       
+	<option>1996</option>       
+	<option>1997</option>       
+	<option>1998</option>       
+	<option>1999</option>   
+	<option >2000</option>       
+	<option>2001</option>       
+	<option>2002</option>       
+	<option>2002</option>       
+	<option>2003</option>       
+	<option>2004</option>       
+	<option>2005</option>       
+	<option>2006</option>       
+	<option>2007</option>       
+	<option>2008</option>   
+	<option>2009</option>       
+	<option>2010</option>       
+	<option>2011</option>       
+	<option>2012</option>       
+	<option>2013</option>       
+	<option>2014</option>       
+	<option>2015</option>       
+	<option>2016</option>       
+	<option  selected='selected'>2017</option>       
+	<option>2018</option>       
+  </select> 
+  <span class="inst">(Month-Year)</span></fieldset> <br/>
+
+
+			</div>	
+</div>
+	
+<br />
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+					<h4 class="panel-title">Area Of Interest</h4>
+				</div>
+				<div class="panel-body"><p  class="panel panel-large">Select a region of interest from the dropdown Or use a Polygon to highlight the area to compute the Indices</p>
+	<!--DropDown-->
+
+
+	<select autocomplete="off" class="_source-picker form-control" name="region1" id="region1">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+
+	<p> OR</p><br />
+ <button id="poly_map" type="button" class="btn btn-success" value="Use Polygon On Map">Use Polygon On Map</button><br />
+	 <button type="button" class=" btn btn-primary" id="clear_poly">Clear Polygon</button>
+
+	</div>	
+</div>
+
+
+
+
+<input type="submit" name="submit" value="GET MAP" class="btn btn-info btn-block" /><br /><br />
+
+
+
+</form>
+
+<form  method="post" action="{% url  'compare' %} " id="download" >
+
+					 {% csrf_token %}
+<input type="submit" name="submit" value="DOWNLOAD MAP" class="btn btn-warning btn-block" /><br /><br />
+
+
+</form>
+
+
+
+		<form  method="post" action="{% url  'compare' %} " id="series_form" >
+
+					 {% csrf_token %}
+
+
+			<div class="panel panel-info">
+	<div class="panel-heading">
+					<h4 class="panel-title">Time Series Control</h4>
+				</div>
+				<div class="panel-body"><p  class="panel panel-large">Explore the time series of the Computed Drought Indices</p><br /><br /><br />
+				
+				<p class="h3"> Select Time Range to Perform Time Series</p><br /><br />
+
+
+				<div id="timeslider"></div><br /><br />
+
+
+				  <a class="draw h4" href="#" id="series_marker">Put Marker on Map </a>
+<br /><br />
+				 <button  type="button" class=" btn btn-success" id="clear_marker">Clear Marker on Map</button><br />
+
+
+
+		<input type="submit" name="submit" value="TIME SERIES" class="btn btn-danger btn-block" />
+			</div>	
+</div>
+
+			</form>
+
+		
+		</div>
+	
+<div id="compare" class="tab-pane fade ">
+
+<div class="jumbotron">
+  <h4>Compare Indices</h4><br />
+  <p>This Section Compares The various Drought Indices  computed over four Different Maps. This is to analyse how one indices affects the other.<br /> 
+	Each Map has a control from which an indices is selected and computed over</p>
+</div><br /><br />
+
+<form  method="post" action="{% url  'compare' %} " id="indices_series_form1" >
+
+					 {% csrf_token %}
+			<!--Map1-->
+<div class="panel panel-danger">
+  <div class="panel-heading h3">Alpha Map</div>
+  <div class="panel-body">
+   <label>Select Drought Indices </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="comp_indices" id="comp_indices">
+				  <option value="ndwi anomaly" name="ndwi anomaly">NDWI Anomaly</option>
+	 <option value="ndvi anomaly" name="ndvi anomaly">NDVI Anomaly </option>
+	 <option value="precipitation" name="precipitation">Precipitation</option>
+	 <option value="spi" name="spi">SPI(Standardized Precipitation Index)</option>
+	 <option value="smi" name="smi">SMI(Soil Moisture Index)</option>
+	 <option value="lst" name="lst">LST(Land Surface Temperature)</option>
+	 <option value="vhi" name="vhi">VHI(Vegetation Health Index)</option>
+	
+				</select><br/>
+
+
+
+	  <label for="satelite1" id="stext1">Select Satelite Mission </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="satelite1" id="satelite1">
+				  <option value="landsat" name="landsat">LANDSAT DATA</option>
+	 <option value="modis" name="modis">MODIS DATA</option>
+	 <option value="avhrr" name="avhrr">Advanced Very High Resolution Radiometer(AVHRR)</option>
+				</select><br/><br/>
+
+
+		 <label>Select Region Of Interest </label><br />
+		<select autocomplete="off" class="_source-picker form-control" name="region2" id="region2">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+
+	  <label>Select  month </label><br />
+
+	<fieldset class="date"> 
+
+  <select id="month_start"
+		  name="month_start" /> 
+	<option value="1">January</option>       
+	<option value="2">February</option>       
+	<option value="3">March</option>       
+	<option value="4">April</option>       
+	<option value="5">May</option>       
+	<option value="6">June</option>       
+	<option value="7">July</option>       
+	<option value="8">August</option>       
+	<option value="9">September</option>       
+	<option value="10">October</option>       
+	<option value="11">November</option>       
+	<option value="12">December</option>       
+  </select> -</select> - 
+  <select id="year_start" 
+		 name="year_start"  />
+	  
+	<option>1982</option>       
+	<option>1983</option>       
+	<option>1984</option>       
+	<option>1985</option>       
+	<option>1986</option>       
+	<option>1987</option>       
+	<option>1988</option>       
+	<option>1989</option>   
+	<option>1990</option>       
+	<option>1991</option>       
+	<option>1992</option>       
+	<option>1993</option>       
+	<option>1994</option>       
+	<option>1995</option>       
+	<option>1996</option>       
+	<option>1997</option>       
+	<option>1998</option>       
+	<option>1999</option>   
+	<option>2000</option>       
+	<option>2001</option>      
+	<option>2002</option>       
+	<option>2002</option>       
+	<option>2003</option>       
+	<option>2004</option>       
+	<option>2005</option>       
+	<option>2006</option>       
+	<option>2007</option>       
+	<option>2008</option>   
+	<option>2009</option>       
+	<option>2010</option>       
+	<option>2011</option>       
+	<option>2012</option>       
+	<option>2013</option>       
+	<option>2014</option>       
+	<option>2015</option>       
+	<option>2016</option>      
+	<option  selected='selected'>2017</option>       
+	<option>2018</option>       
+  </select> 
+  <span class="inst">(Month-Year)</span></fieldset> <br/><br />
+	  
+
+	  <input type="submit" name="submit" value="Go Alpha" class="btn btn-danger btn-block" />
+  </div>
+</div>
+
+		</form>
+
+
+
+<form  method="post" action="{% url  'compare' %} " id="indices_series_form2" >
+
+					 {% csrf_token %}
+	<!--Map2-->
+
+	<div class="panel panel-success">
+  <div class="panel-heading h3">Beta Map</div>
+  <div class="panel-body">
+   
+
+		 <label>Select Drought Indices </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="comp_indices1" id="comp_indices1">
+				  <option value="ndwi anomaly" name="ndwi anomaly">NDWI Anomaly</option>
+	 <option value="ndvi anomaly" name="ndvi anomaly">NDVI Anomaly </option>
+	 <option value="precipitation" name="precipitation">Precipitation</option>
+	 <option value="spi" name="spi">SPI(Standardized Precipitation Index)</option>
+	 <option value="smi" name="smi">SMI(Soil Moisture Index)</option>
+	 <option value="lst" name="lst">LST(Land Surface Temperature)</option>
+	 <option value="vhi" name="vhi">VHI(Vegetation Health Index)</option>
+	
+				</select><br/>
+
+	  <label for="satelite2" id="stext2">Select Satelite Mission </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="satelite2" id="satelite2">
+				  <option value="landsat" name="landsat">LANDSAT DATA</option>
+	 <option value="modis" name="modis">MODIS DATA</option>
+	 <option value="avhrr" name="avhrr">Advanced Very High Resolution Radiometer(AVHRR)</option>
+				</select><br/><br/>
+
+			 <label>Select Region Of Interest </label><br />
+		<select autocomplete="off" class="_source-picker form-control" name="region3" id="region3">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+	  <label>Select  month </label><br />
+
+	<fieldset class="date"> 
+
+  <select id="month_start"
+		  name="month_start" /> 
+	<option value="1">January</option>       
+	<option value="2">February</option>       
+	<option value="3">March</option>       
+	<option value="4">April</option>       
+	<option value="5">May</option>       
+	<option value="6">June</option>       
+	<option value="7">July</option>       
+	<option value="8">August</option>       
+	<option value="9">September</option>       
+	<option value="10">October</option>       
+	<option value="11">November</option>       
+	<option value="12">December</option>       
+  </select> -</select> - 
+  <select id="year_start" 
+		 name="year_start"  />
+	  
+	<option>1982</option>       
+	<option>1983</option>       
+	<option>1984</option>       
+	<option>1985</option>       
+	<option>1986</option>       
+	<option>1987</option>       
+	<option>1988</option>       
+	<option>1989</option>   
+	<option>1990</option>       
+	<option>1991</option>       
+	<option>1992</option>       
+	<option>1993</option>       
+	<option>1994</option>       
+	<option>1995</option>       
+	<option>1996</option>       
+	<option>1997</option>       
+	<option>1998</option>       
+	<option>1999</option>   
+	<option >2000</option>       
+	<option>2001</option>       
+	<option>2002</option>       
+	<option>2002</option>       
+	<option>2003</option>       
+	<option>2004</option>       
+	<option>2005</option>       
+	<option>2006</option>       
+	<option>2007</option>       
+	<option>2008</option>   
+	<option>2009</option>       
+	<option>2010</option>       
+	<option>2011</option>       
+	<option>2012</option>       
+	<option>2013</option>       
+	<option>2014</option>       
+	<option>2015</option>       
+	<option>2016</option>       
+	<option  selected='selected'>2017</option>       
+	<option>2018</option>       
+  </select> 
+  <span class="inst">(Month-Year)</span></fieldset> <br/><br />
+
+	
+
+	  <input type="submit" name="submit" value="Go Beta" class="btn btn-success btn-block" />
+
+  </div>
+</div>
+
+	</form>
+
+<form  method="post" action="{% url  'compare' %} " id="indices_series_form3" >
+
+					 {% csrf_token %}
+
+	<!--Map3-->
+	<div class="panel panel-warning">
+  <div class="panel-heading h3">Delta Map</div>
+  <div class="panel-body">
+  
+		 <label>Select Drought Indices </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="comp_indices2" id="comp_indices2">
+				  <option value="ndwi anomaly" name="ndwi anomaly">NDWI Anomaly</option>
+	 <option value="ndvi anomaly" name="ndvi anomaly">NDVI Anomaly </option>
+	 <option value="precipitation" name="precipitation">Precipitation</option>
+	 <option value="spi" name="spi">SPI(Standardized Precipitation Index)</option>
+	 <option value="smi" name="smi">SMI(Soil Moisture Index)</option>
+	 <option value="lst" name="lst">LST(Land Surface Temperature)</option>
+	 <option value="vhi" name="vhi">VHI(Vegetation Health Index)</option>
+	
+				</select><br/>
+
+
+	  <label for="satelite3" id="stext3">Select Satelite Mission </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="satelite3" id="satelite3">
+				  <option value="landsat" name="landsat">LANDSAT DATA</option>
+	 <option value="modis" name="modis">MODIS DATA</option>
+	 <option value="avhrr" name="avhrr">Advanced Very High Resolution Radiometer(AVHRR)</option>
+				</select><br/><br/>
+
+
+			 <label>Select Region Of Interest </label><br />
+	<select autocomplete="off" class="_source-picker form-control" name="region4" id="region4">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+
+	  <label>Select  month </label><br />
+
+	<fieldset class="date"> 
+
+  <select id="month_start"
+		  name="month_start" /> 
+	<option value="1">January</option>       
+	<option value="2">February</option>       
+	<option value="3">March</option>       
+	<option value="4">April</option>       
+	<option value="5">May</option>       
+	<option value="6">June</option>       
+	<option value="7">July</option>       
+	<option value="8">August</option>       
+	<option value="9">September</option>       
+	<option value="10">October</option>       
+	<option value="11">November</option>       
+	<option value="12">December</option>       
+  </select> -</select> - 
+  <select id="year_start" 
+		 name="year_start"  />
+	  
+	<option>1982</option>       
+	<option>1983</option>       
+	<option>1984</option>       
+	<option>1985</option>       
+	<option>1986</option>       
+	<option>1987</option>       
+	<option>1988</option>       
+	<option>1989</option>   
+	<option>1990</option>       
+	<option>1991</option>       
+	<option>1992</option>       
+	<option>1993</option>       
+	<option>1994</option>       
+	<option>1995</option>       
+	<option>1996</option>       
+	<option>1997</option>       
+	<option>1998</option>       
+	<option>1999</option>   
+	<option >2000</option>       
+	<option>2001</option>       
+	<option>2002</option>       
+	<option>2002</option>       
+	<option>2003</option>       
+	<option>2004</option>       
+	<option>2005</option>       
+	<option>2006</option>       
+	<option>2007</option>       
+	<option>2008</option>   
+	<option>2009</option>       
+	<option>2010</option>       
+	<option>2011</option>       
+	<option>2012</option>       
+	<option>2013</option>       
+	<option>2014</option>       
+	<option>2015</option>       
+	<option>2016</option>       
+	<option  selected='selected'>2017</option>       
+	<option>2018</option>       
+  </select> 
+  <span class="inst">(Month-Year)</span></fieldset> <br/><br />
+
+
+	  <input type="submit" name="submit" value="Go Delta" class="btn btn-warning btn-block" />
+
+  </div>
+</div>
+
+
+	</form>
+	
+<form  method="post" action="{% url  'compare' %} " id="indices_series_form4" >
+
+					 {% csrf_token %}
+	<!--Map4-->
+
+	<div class="panel panel-info">
+  <div class="panel-heading h3">Omega Map</div>
+  <div class="panel-body">
+
+		 <label>Select Drought Indices </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="comp_indices3" id="comp_indices3">
+				  <option value="ndwi anomaly" name="ndwi anomaly">NDWI Anomaly</option>
+	 <option value="ndvi anomaly" name="ndvi anomaly">NDVI Anomaly </option>
+	 <option value="precipitation" name="precipitation">Precipitation</option>
+	 <option value="spi" name="spi">SPI(Standardized Precipitation Index)</option>
+	 <option value="smi" name="smi">SMI(Soil Moisture Index)</option>
+	 <option value="lst" name="lst">LST(Land Surface Temperature)</option>
+	 <option value="vhi" name="vhi">VHI(Vegetation Health Index)</option>
+	
+				</select><br/>
+
+	  <label for="satelite4" id="stext4">Select Satelite Mission </label><br />
+<select autocomplete="off" class="_source-picker form-control" name="satelite4" id="satelite4">
+				  <option value="landsat" name="landsat">LANDSAT DATA</option>
+	 <option value="modis" name="modis">MODIS DATA</option>
+	 <option value="avhrr" name="avhrr">Advanced Very High Resolution Radiometer(AVHRR)</option>
+				</select><br/><br/>
+
+
+			 <label>Select Region Of Interest </label><br />
+		<select autocomplete="off" class="_source-picker form-control" name="region5" id="region5">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+
+	  <label>Select  month </label><br />
+
+	<fieldset class="date"> 
+
+  <select id="month_start"
+		  name="month_start" /> 
+	<option value="1">January</option>       
+	<option value="2">February</option>       
+	<option value="3">March</option>       
+	<option value="4">April</option>       
+	<option value="5">May</option>       
+	<option value="6">June</option>       
+	<option value="7">July</option>       
+	<option value="8">August</option>       
+	<option value="9">September</option>       
+	<option value="10">October</option>       
+	<option value="11">November</option>       
+	<option value="12">December</option>       
+  </select> -</select> - 
+  <select id="year_start" 
+		 name="year_start"  />
+	  
+	<option>1982</option>       
+	<option>1983</option>       
+	<option>1984</option>       
+	<option>1985</option>       
+	<option>1986</option>       
+	<option>1987</option>       
+	<option>1988</option>       
+	<option>1989</option>   
+	<option>1990</option>       
+	<option>1991</option>       
+	<option>1992</option>       
+	<option>1993</option>       
+	<option>1994</option>       
+	<option>1995</option>       
+	<option>1996</option>       
+	<option>1997</option>       
+	<option>1998</option>       
+	<option>1999</option>   
+	<option >2000</option>       
+	<option>2001</option>       
+	<option>2002</option>       
+	<option>2002</option>       
+	<option>2003</option>       
+	<option>2004</option>       
+	<option>2005</option>       
+	<option>2006</option>       
+	<option>2007</option>       
+	<option>2008</option>   
+	<option>2009</option>       
+	<option>2010</option>       
+	<option>2011</option>       
+	<option>2012</option>       
+	<option>2013</option>       
+	<option>2014</option>       
+	<option>2015</option>       
+	<option>2016</option>       
+	<option  selected='selected'>2017</option>       
+	<option>2018</option>       
+  </select> 
+  <span class="inst">(Month-Year)</span></fieldset> <br/><br />
+
+	<br />
+
+	  <input type="submit" name="submit" value="Go Omega" class="btn btn-info btn-block" />
+
+  </div>
+</div>
+
+
+	</form>	
+
+	</div>
+
+  </div>
+</div>
+
+<!-- SideNav Menu -->
+<div id="savedata" style="visibility: hidden; "></div>
+</div>
+	<!--Maps-->
+	<div class="container">
+
+<div id="indicesmap" class="col-sm-9  sidem"style="background-color:transparent; ">
+
+ <div id="map"  ></div>
+<!--  <div id="legend" class="leg"></div>  -->
+</div>
+ <div id="mydiv" style="visibility:hidden; " >
+		<div id="mydivheader">Click here to move Graph 	 <button  class=" btn-warning" onclick="document.getElementById('mydiv').style.visibility='hidden'" >Close Graph</button></div>
+		<div id="plot"style="width: 620px; height: 500px;">
+
+	 </div>
+</div><!-- Plotly chart will be drawn inside this DIV --></div>
+
+<div id="comparemap" class="col-sm-9   sidem"style="background-color:transparent ; visibility:hidden">
+
+<div class="row">
+
+
+  <div class="col  col-sm-4  " style="width:590px; height: 360px" >
+<div id="map1" ></div></div>
+  <div class="col  col-sm-4  "style="width:590px; height: 360px" >
+<div id="map2"  ></div></div>
+
+  <div class="col  col-sm-4   " style="width:590px; height: 360px" >
+<div id="map3"  ></div></div>
+  <div class="col  col-sm-4  "style="width:590px; height: 360px"  >
+<div id="map4"  ></div></div>
+
+	</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+	
+
+
+
+	<!--Map scripts-->
+
+	<script>
+
+
+
+
+</script>
+<script src="../../static/app/scripts/drought_listiner.js"></script>
+
+<script src="../../static/app/scripts/legend_generator.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script src="../../static/app/scripts/rSlider.min.js"></script>
+
+	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPN5Q0Ij5-BjBGMDp00VdWchh3-hG2Iss&libraries=drawing"></script>
+
+<script src="../../static/app/scripts/respond.min.js"></script>
+
+<script src="../../static/app/scripts/bootstrap-waitingfor.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<!--layer scripts-->
+<!--layer scripts-->
+<script src="../../static/app/scripts/drought_map_script.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+ <script src="../../static/app/scripts/al.js"></script>
+
+<script src="../../static/app/scripts/aldownload.js"></script>
+
+<script src="../../static/app/scripts/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+run_module_suite
+assert_raises_fpe
+dec
+platform
+float16
+assert_
+TestHalf
+float32
+uint16
+assert_equal
+np
+float64

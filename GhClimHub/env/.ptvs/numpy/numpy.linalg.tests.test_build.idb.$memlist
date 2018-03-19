@@ -1,0 +1,10 @@
+run_module_suite
+Popen
+FindDependenciesLdd
+re
+lapack_lite
+assert_
+TestF77Mismatch
+dec
+sys
+PIPE

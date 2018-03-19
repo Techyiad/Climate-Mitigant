@@ -1,0 +1,5 @@
+run_module_suite
+test_diagonal
+np
+assert_equal
+TestDot

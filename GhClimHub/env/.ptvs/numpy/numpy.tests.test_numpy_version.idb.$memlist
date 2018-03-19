@@ -1,0 +1,5 @@
+run_module_suite
+test_valid_numpy_version
+np
+assert_
+re

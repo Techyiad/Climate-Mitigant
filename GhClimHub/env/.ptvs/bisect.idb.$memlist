@@ -1,0 +1,6 @@
+bisect
+bisect_right
+insort
+bisect_left
+insort_right
+insort_left

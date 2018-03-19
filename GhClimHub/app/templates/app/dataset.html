@@ -1,0 +1,721 @@
+﻿{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!--author: Akoto Ian-->
+<title>GHANA Climate Hub </title>
+<!-- custom-theme -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Viticulture Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+<!-- //custom-theme -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="../../static/app/content/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- js -->
+<script type="text/javascript" src="../../static/app/scripts/jquery-2.1.4.min.js"></script>
+<!-- //js -->
+<!-- font-awesome-icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<link href="../../static/app/content/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="../../static/app/content/al.css" rel="stylesheet" />
+<link href="../../static/app/content/jquery.ui.core.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>	
+<link href="../../static/app/content/jquery.ui.theme.min.css" rel="stylesheet" />
+<link href="../../static/app/content/colorbrewer.css" rel="stylesheet" />
+ <!--  jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+<!-- Bootstrap Date-Picker Plugin -->
+<script src="../../static/app/scripts/jquery-1.11.1.min.js"></script>
+<script src="../../static/app/scripts/d3.v3.min.js"></script>
+<link href="../../static/app/content/jquery-ui.css" rel="stylesheet" />
+<style>
+	   #map {
+	height: 630px;
+	width: 150%;
+	   }
+	
+	   #ex1Slider .slider-selection {
+	background: #BABABA;
+}
+
+#target_colorbar {
+
+
+
+
+
+
+}
+
+		#floating-panel {
+		position: absolute;
+		left: 30%;
+		z-index: 5;
+		background-color: transparent;
+		padding: 1px;
+		z-index:1;
+		text-align: center;
+		font-family: 'Roboto','sans-serif';
+		line-height: 30px;
+		padding-left: 330px;
+	  }
+
+	.powered-by-ee {
+  position: absolute;
+  z-index: 1;
+  bottom: -250px;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+ 
+}
+
+ #goCenterUI, #setCenterUI {
+		background-color: #fff;
+		border: 2px solid #fff;
+		border-radius: 3px;
+		box-shadow: 0 2px 6px rgba(0,0,0,.3);
+		cursor: pointer;
+		float: left;
+		margin-bottom: 22px;
+		text-align: center;
+	  }
+	  #goCenterText, #setCenterText {
+		color: rgb(25,25,25);
+		font-family: Roboto,Arial,sans-serif;
+		font-size: 15px;
+		line-height: 25px;
+		padding-left: 5px;
+		padding-right: 5px;
+	  }
+	  #setCenterUI {
+		margin-left: 12px;
+	  }
+
+
+		   #text{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 50px;
+	color: white;
+	transform: translate(-50%,-50%);
+	font-size:larger;
+	-ms-transform: translate(-50%,-50%);
+}
+	
+
+</style>
+
+   
+	
+
+	 
+
+
+</head>
+	
+<body>
+
+
+<!-- banner -->
+<div class="w3_navigation">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="navbar-header navbar-left">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<h1><a class="navbar-brand" href="{%  url 'home' %}">GHANA <span>CLIMATE</span><p class="logo_w3l_agile_caption">HUB</p></a></h1>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+					<nav class="menu menu--iris">
+						<ul class="nav navbar-nav ">
+							<li class="menu__item menu__item--current"><a href="{% url 'home' %}" class="menu__link">Home</a></li>
+
+							<li class="menu__item"><a href="{% url 'dataset' %}" class="menu__link scroll" >Dataset</a></li>
+
+
+
+						    <li ><a href="{% url 'compare' %}" class="menu__link scroll">Drought Monitor</a></li>
+						    
+
+							<li class="menu__item"><a href="{% url 'mail' %}" class="menu__link scroll">Mail Us</a></li>
+							<li class="menu__item"><a href="{% url 'about' %}" class="menu__link scroll" >About Us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</nav>
+
+		</div>
+	</div>
+<!-- //banner -->
+	<div class="row">
+		
+<!-- ***************    -->
+<!-- ADD MAP COMPONENTS -->
+<!-- ***************    -->
+ <div id="slider-custom-control"> 
+	 <!-- opacity slider on map -->
+	 <div id="slider" style="height:50; z-index: 100; position: absolute; right: 13px;"></div>
+</div>
+
+
+		<div class="col-xs-3">
+			<!--Side Control-->
+				<div class="_ui">
+				
+			
+				<div class="_panel">
+
+				
+				<form  method="post" action="{% url 'dataset' %} " id="user_form" >
+
+					 {% csrf_token %}
+					 <div class="_inputs">
+
+			  
+			  <div class="_input-block _regression">
+				<div class="_input-block-label">Dataset <span id="regression-tooltip" data-placement="bottom" data-toggle="tooltip" title="Choose the type Dataset to Compute
+																																			  </div>">
+								<span class="glyphicon glyphicon-question-sign"></span>
+							  </span> :
+				</div>
+				<select autocomplete="off" class="_regression-picker form-control" name="dataset" id="dataset">
+				  <option value="NDVI">NDVI(Normalized Difference Vegetation Index)</option>
+				  <option value="EVI">EVI(Enhanced Vegetation Index)</option>
+				  <option value="NDWI">NDWI(Normalized Difference Water Index)</option>
+				  
+				</select>
+			  </div>
+
+			 
+			  <div class="_input-block source">
+				<div class="_input-block-label">Data source <span id="source-tooltip" data-toggle="tooltip" title="Choose the source satellite or select all to get images from all three.">
+								<span class="glyphicon glyphicon-question-sign"></span>
+							  </span> :
+				</div>
+				<select autocomplete="off" class="_source-picker form-control" name="datasource" id="datasource">
+				  <option value="all">Landsats 4/5/7</option>
+				  <option value="5">Landsat 5</option>
+				  <option value="7">Landsat 7</option>
+				  <option value="8">Landsat 8</option>
+				  <option value="M">MODIS</option>
+
+
+				</select>
+			  </div>
+						 <!-- time-->
+					<div>
+		 <div class="dataAvailability" id="boldStuff" style="display:inline">(Period of Record:1984-01-01 to 2017-03-17)</div>
+				
+				  <div class="input-block time">
+				<div class="input-block-label">Time range <span id="time-tooltip" data-toggle="tooltip" title="Choose the start and end year to filter the satellite images.<br>Start and end year are included.">
+								<span class="glyphicon glyphicon-question-sign"></span>
+							  </span> :
+				</div>
+				  <input id="start" name="start"   placeholder="YYY-MM-DD" type="text"  value="2012-06-15 " autocomplete="off"  readonly class=" _start-picker form-control">
+				 <span class="glyphicon glyphicon-time"></span> <span>-</span>
+				  <input id="end"  name="end"  placeholder="YYY-MM-DD" type="text"  value="2015-06-15 " autocomplete="off"  readonly class=" _end-picker form-control"><span class="glyphicon glyphicon-time"></span>
+			  </div>
+
+			
+					</div>	<br />
+						 
+		<div class="panel panel-primary">
+	<div class="panel-heading">
+					<h4 class="panel-title">Area Of Interest</h4>
+				</div>
+				<div class="panel-body"><p  class="panel panel-large">Select a region of interest from the dropdown Or use a Polygon to highlight the area to compute the Indices</p>
+	<!--DropDown-->
+
+
+	<select autocomplete="off" class="_source-picker form-control" name="region1" id="region1">
+				<option value="ghana" name="ghana">Ghana</option>
+				  <option value="Accra" name="accra">Accra</option>
+	 <option value="Ashanti" name="ashanti">Ashanti Region </option>
+	 <option value="Western" name="western">Western Region</option>
+	 <option value="Eastern" name="eatern">Eastern Region</option>
+	 <option value="Northern" >Northern Region</option>
+	 <option value="Upper East">Upper East</option>
+	 <option value="Upper West">Upper West</option>
+			 <option value="Central">Central Region</option>
+			 <option value="Brong Ahafo">Brong Ahafo</option>
+			 <option value="Volta">Volta Region</option>
+	
+				</select><br />
+
+	<p> OR</p><br />
+ <button id="poly_map" type="button" class="btn btn-success" value="Use Polygon On Map">Use Polygon On Map</button><br />
+			 <button type="button" class=" btn-primary" id="clear_poly">Clear Polygon</button>
+
+	</div>	
+</div>
+
+
+
+		
+				 
+						  
+			  <div class="input-block buttons">
+				<span id="compute-tooltip" data-toggle="tooltip" title="Please set a point or region first.">
+				<input type="submit" name="submit" value="GET MAP" class="btn btn-danger btn-block" /><br />
+
+				</span>
+
+				
+			  </div><br/>
+						 
+						 
+						 </form>
+			
+		
+			</div>
+					
+					
+
+								
+				<form  method="post" action="{% url 'dataset' %} " id="chart_form" >
+
+					 {% csrf_token %}
+	
+					 
+
+					 <span class="message">
+				  <a class="draw" href="#" id="marker_decide">Put Marker on Map</a>
+						 <button  type="button" class=" btn-success" id="clear_marker">Clear Marker on Map</button>
+				</span>
+
+
+
+				  <input type="submit" id="chart_submit" autocomplete="off" class=" btn-large btn-danger" value="Get Chart" disabled="disabled" />
+			
+
+
+
+					</form>
+
+
+
+	 <!--PALETTE CHOOSER-->
+					
+	
+
+
+
+				
+					<!-- Block with relevant organisation/company logo and link to websites -->
+				
+
+				</div>
+				
+				<!-- scrollbar for entire panel -->
+				<script>
+				$(document).ready(function() {
+					$("._panel").css("max-height", ($(document).height()-parseInt($(".ui").css('top'), 10))-20);
+				});
+				</script>
+		</div>
+		</div>
+		
+		<div class="col-xs-9">
+			<!--Top Controls-->
+			<div >
+				<div class="col-md-12" >
+			<div class="container-fluid">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mapoptionscollapse" style="border-color: #FFFFFF;">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar" style="background-color:#0000FF"></span>
+			<span class="icon-bar" style="background-color:#0000FF"></span>
+			<span class="icon-bar" style="background-color:#0000FF"></span>
+		</button>
+	</div>
+
+	<div class="collapse navbar-collapse" id="mapoptionscollapse" style="background-color:#FFFFFF;text-align:center;">
+	  <ul class="nav navbar-nav">
+		
+		<li class="dropdown button-dropdown dropdown-menu">
+		  <a class="dropdown-toggle" href="#" id="downloadDropdown" class="dropdown-toggle" data-toggle="dropdown" role="presentation"  >Download Data<strong class="caret"></strong></a>
+		  <div class="dropdown-menu" style="min-width:300px;padding: 15px; padding-bottom: 0px;">
+				 <form  method="post" action="{% url 'dataset' %} " id="user_download" >
+
+					 {% csrf_token %}
+			<div class="panel panel-default">
+<div class="panel-body panel-forms">
+	<div class="row">
+		<div class="col-xs-12">
+					<b><span style="color:blue;font-size:medium">Download Options:</span></b><br>
+		</div>
+	</div>
+	<div class="panel panel-default">
+	   <div class="panel-body panel-forms">
+		<!-- *********************** -->
+				<!--      DOWNLOAD RESOLUTION   -->
+				<!-- *********************** -->
+	 
+				<div class="row">
+						<div class="col-xs-12">
+								<b>Download Resolution:</b><br>
+							<select id="scale" name="scale" class="scale" style="width:100%">
+						<option value="100">30m </option>
+						<option value="300">300 m </option>
+						<option value="500">500 m </option>
+						<option value="700">700 m </option>
+						<option value="1000">1 km </option>
+							
+							</select>
+				<br><br>
+								<!--meters-->
+						</div>
+				</div>
+
+		<!-- *********************** -->
+		<!--      DOWNLOAD FORMAT   -->
+		<!-- *********************** -->
+		<div class="row">
+			<div class="col-xs-12">
+				<b>Download Format</b>:<br>
+				<select id="downloadMapFormat" class="downloadMapFormat" name="downloadMapFormat" style="width:100%">
+					
+						<option value="tif">
+						GEO TIFF</option>
+
+					
+				</select>
+				<br><br>
+			</div>
+		</div>
+		<!-- *********************** -->
+		<!--      DOWNLOAD FILENAME   -->
+		<!-- *********************** -->
+		<div class="row">
+			<div class="col-xs-12">
+				<b>Download Filename:</b><br>
+				<input id="downloadFilename" name="downloadFilename"  onfocus="this.originalvalue=this.value" style="width:100%"><br>
+				
+			</div>
+		</div>
+	   </div><!--end panelbody-->
+	</div><!-- end panel-->
+
+</div><!--end panelbody-->
+</div><!-- end panel-->
+
+<div class="row">
+		<div class="col-xs-12">
+				<!-- *********************** -->
+				<!--   DOWNLOAD BUTTON       -->
+				<!-- *********************** -->
+			<input type="submit" value="DOWNLOAD MAP LAYER" class="btn btn-large  btn-primary pull-left" style="width:100%" id="form-button-submit-download" />
+						
+
+		</div>
+</div>
+
+					 </form>
+		  </div>
+		</li>
+
+		<li class=" dropdown button-dropdown dropdown-menu "  >
+		<a id="graphDropdown" href="#"  data-toggle="dropdown" class="dropdown-toggle" >Show Graph<strong class="caret"></strong></a>
+
+			  <div class="dropdown-menu" style="min-width:630px;padding: 15px; padding-bottom: 0px;" role="presentation">
+
+
+
+				   <div id="myDiv" style="width: 620px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+			  </div>
+		</li>
+	  </ul>
+	 
+	</div><!-- /.navbar-collapse -->
+  </div>
+			
+		</div>
+	
+			</div>
+			
+			<!--printable-->
+			<div class="row">
+		<br>
+		<div id="titleRegion" style="" class="col-xs-12 col-sm-12 col-md-6 col-lg-6"><span style="font-size:15pt"><div style="text-align:center" id="notes"></div></span><span style="font-size:10pt"><div style="text-align:center" id="date_info"></div></span></div>
+	
+
+		</div>
+			<!--Map-->
+
+		   <div class="row">
+		  
+		  <div class="col-xs-8">
+		
+			 <div id="map" ></div>
+
+				</div>
+		  
+	  </div>
+		</div>
+		
+<div id="overlay" >
+
+<span class="label label-default" id="text">Processing request</span>
+<!--<img src="../../static/app/images/progressbar2" alt="computation requires some time"  height="62" width="60" style=" position:absolute; left:40%; right:40%; top:40%; z-index:1;"/>
+--></div>
+   
+	
+
+	<!--HIDDEN-->
+
+<div id="alBox"></div>
+	<div id="poly" style="visibility: hidden; display:inline;"></div>
+	 <div id="rectangle" style="visibility: hidden; display:inline;"></div>
+	 <div id="palette" style="visibility: hidden; display:inline;"></div>
+   <div style="display:none">
+		<select id="opacity" name="opacity" style="width:100%">
+						
+							<option value="1.0">
+								0.0%</option>
+						
+							<option value="0.95">
+								5.0%</option>
+						
+							<option value="0.9">
+								10.0%</option>
+						
+							<option value="0.85">
+								15.0%</option>
+						
+							<option value="0.8">
+								20.0%</option>
+						
+							<option value="0.75">
+								25.0%</option>
+						
+							<option value="0.7" selected="">
+								30.0%</option>
+						
+							<option value="0.65">
+								35.0%</option>
+						
+							<option value="0.6">
+								40.0%</option>
+						
+							<option value="0.55">
+								45.0%</option>
+						
+							<option value="0.5">
+								50.0%</option>
+						
+							<option value="0.45">
+								55.0%</option>
+						
+							<option value="0.4">
+								60.0%</option>
+						
+							<option value="0.35">
+								65.0%</option>
+						
+							<option value="0.3">
+								70.0%</option>
+						
+							<option value="0.25">
+								75.0%</option>
+						
+							<option value="0.2">
+								80.0%</option>
+						
+							<option value="0.15">
+								85.0%</option>
+						
+							<option value="0.1">
+								90.0%</option>
+						
+							<option value="0.05">
+								95.0%</option>
+						
+							<option value="0.0">
+								100.0%</option>
+						
+				</select>
+</div>
+
+
+	
+	 <!--HIDDEN-->
+
+<!--Side Controls-->
+
+
+
+ <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOMqW87q6cA-62S4BMaeGJWdD1elBVmLA&libraries=drawing"></script>
+
+<!--side bar-->
+
+
+	
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+		
+
+
+<!-- 
+		/*********************************
+		*    LOAD SCRIPTS WINDOW		*
+		*********************************/
+			 -->
+
+
+
+<script src="../../static/app/scripts/legend_generator.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>	
+
+<script type="text/javascript" src="../../static/app/scripts/move-top.js"></script>
+<script type="text/javascript" src="../../static/app/scripts/easing.js"></script>
+<script src="../../static/app/scripts/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ 
+	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="../../static/app/scripts/Script.js" type="text/javascript"></script>
+
+	
+<script src="../../static/app/scripts/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+
+<!-- //for bootstrap working -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+		//$().UItoTop({ easingType: 'easeOutQuart' });
+								
+		});
+
+
+		</script>
+
+
+	<script type="text/javascript">
+		$("._start-picker,._end-picker").datepicker({
+			dateFormat: 'yy-mm-dd',
+			 pickTime: false ,
+			 minViewMode: "days",
+			 autoclose: true,
+			 changeMonth: true,
+			 changeYear: true,
+			 yearRange: "1984:2030",
+			 showButtonPanel: true
+			 
+
+		});
+
+
+ $("._source-picker").change((function(){
+	var selected = $("._source-picker option:selected").val();
+
+		if (selected == "all") {
+			  document.getElementById("boldStuff").innerHTML  = '(Period of Record:1984-01-01 to Current Date)';
+
+
+		} else if (selected == "7") {
+			  document.getElementById("boldStuff").innerHTML  = '(Period of Record:1984-04-13 to Current Date)';
+	} else if (selected == "8") {
+		document.getElementById("boldStuff").innerHTML = '(Period of Record:2013-04-07 to Current Date)';
+	
+	}
+  }));
+
+
+
+
+</script> 
+
+
+	<script>
+
+		jQuery(document).ready(function (e) {
+	function t(t) {
+		e(t).bind("click", function (t) {
+			t.preventDefault();
+			e(this).parent().fadeOut()
+		})
+	}
+	e(".dropdown-toggle").click(function () {
+		var t = e(this).parents(".button-dropdown").children(".dropdown-menu").is(":hidden");
+		e(".button-dropdown .dropdown-menu").hide();
+		e(".button-dropdown .dropdown-toggle").removeClass("active");
+		if (t) {
+			e(this).parents(".button-dropdown").children(".dropdown-menu").toggle().parents(".button-dropdown").children(".dropdown-toggle").addClass("active")
+		}
+	});
+	e(document).bind("click", function (t) {
+		var n = e(t.target);
+		if (!n.parents().hasClass("button-dropdown")) e(".button-dropdown .dropdown-menu").hide();
+	});
+	e(document).bind("click", function (t) {
+		var n = e(t.target);
+		if (!n.parents().hasClass("button-dropdown")) e(".button-dropdown .dropdown-toggle").removeClass("active");
+	})
+});
+
+
+	   
+
+
+
+		var opacity_slider = document.getElementById("slider-custom-control");
+
+
+
+
+	</script>
+
+		<!-- Load our JavaScript file. -->
+	
+
+<!-- //here ends scrolling icon -->
+</body>
+</html>

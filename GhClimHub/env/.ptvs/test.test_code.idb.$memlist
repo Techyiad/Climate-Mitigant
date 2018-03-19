@@ -1,0 +1,12 @@
+run_doctest
+weakref
+CodeWeakRefTest
+dump
+cpython_only
+run_unittest
+isinterned
+CodeTest
+test_main
+CodeConstsTest
+consts
+unittest

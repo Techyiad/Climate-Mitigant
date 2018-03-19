@@ -1,0 +1,7 @@
+assert_warns
+TestMinimumMaximum
+np
+run_module_suite
+MaskedArrayFutureWarning
+TestArgsort
+assert_equal

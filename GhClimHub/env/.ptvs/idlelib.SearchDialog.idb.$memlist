@@ -1,0 +1,16 @@
+SearchDialog
+find_again
+re
+Button
+SearchEngine
+Tk
+END
+SearchDialogBase
+Text
+find
+SEL
+_setup
+find_selection
+run
+_search_dialog
+TclError

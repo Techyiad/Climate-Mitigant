@@ -1,0 +1,4 @@
+test_qr_mode_full_future_warning
+run_module_suite
+np
+assert_warns

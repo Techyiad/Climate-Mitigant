@@ -1,0 +1,7 @@
+parametrize
+assert_warns
+setastest
+knownfailureif
+slow
+deprecated
+skipif

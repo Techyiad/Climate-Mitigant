@@ -1,0 +1,13 @@
+np
+mode_equivalents
+dtype
+dtypedescr
+memmap
+valid_filemodes
+writeable_filemodes
+__all__
+uint8
+ndarray
+is_pathlib_path
+long
+basestring

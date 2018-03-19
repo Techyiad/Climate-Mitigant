@@ -1,0 +1,10 @@
+_decrypt
+_ENCRYPT
+_aead_cipher_name
+_aead_setup
+_set_length
+_DECRYPT
+_encrypt
+_process_data
+_process_aad
+InvalidTag

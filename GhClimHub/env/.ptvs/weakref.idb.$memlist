@@ -1,0 +1,17 @@
+ProxyType
+UserDict
+getweakrefs
+WeakSet
+_remove_dead_weakref
+getweakrefcount
+WeakValueDictionary
+__all__
+_IterationGuard
+CallableProxyType
+proxy
+KeyedRef
+WeakKeyDictionary
+ReferenceType
+ProxyTypes
+ReferenceError
+ref

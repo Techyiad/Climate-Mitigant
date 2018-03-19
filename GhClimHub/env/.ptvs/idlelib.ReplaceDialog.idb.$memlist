@@ -1,0 +1,14 @@
+TclError
+run
+replace
+Tk
+SEL
+_replace_dialog
+StringVar
+SearchDialogBase
+SearchEngine
+ReplaceDialog
+Button
+END
+re
+Text

@@ -1,0 +1,13 @@
+COLOR_PAIRS
+setupterm
+start_color
+panel
+__revision__
+wrapper
+textpad
+_os
+has_key
+COLORS
+_sys
+initscr
+ascii

@@ -1,0 +1,17 @@
+__all__
+broadcasting
+f
+__doc__
+structured_arrays
+os
+glossary
+subclassing
+ufuncs
+ref_dir
+byteswapping
+basics
+indexing
+creation
+misc
+constants
+internals

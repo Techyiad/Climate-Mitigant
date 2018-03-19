@@ -1,0 +1,10 @@
+copy
+six
+E001
+register
+check_setting_app_dirs_loaders
+E002
+Tags
+check_string_if_invalid_is_string
+Error
+settings

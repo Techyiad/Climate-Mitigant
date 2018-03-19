@@ -1,0 +1,9 @@
+collections
+assert_warns
+setastest
+knownfailureif
+slow
+parametrize
+SkipTest
+skipif
+deprecated

@@ -1,0 +1,13 @@
+run_module_suite
+np
+ndpointer
+cdll
+dec
+_HAS_CTYPE
+TestLoadLibrary
+TestNdpointer
+assert_raises
+assert_
+get_shared_lib_extension
+load_library
+sys
