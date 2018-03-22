@@ -1320,104 +1320,123 @@ def SMI(options):
 				region_Gh = Ghana .filter(ee.Filter.eq('name', region_selected))  
 
 	
-	# Define time range
+		year = date_year
 
-		startyear = 2000
-		endyear = 2018
+		month = date_month
 
-	# Set date in ee date format
-		startdate = ee.Date.fromYMD(startyear,1,1)
-		enddate = ee.Date.fromYMD(endyear + 1,12,31)
+		endingInDays = monthrange(date_year,month)[1]
+		
+		startMonth = '-' + str(month) + '-01'
+		endMonth = '-' + str(month) + '-' + str(endingInDays)
+  
 
+ #setting up the start and ending date
+		startDate = str(year) + startMonth
+		endDate = str(year) + endMonth
 
-	# make a list with years
-		years = range(startyear, endyear)
-
-		months = range(1,12)
 	
-	
-		collection = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(startdate,enddate).filterBounds(region_Gh)
+#****************************** LST
+		collection = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
 	
 		modLSTday = collection.map(lst_map)
 
-		monthlyLST = ee.ImageCollection(calcMonthlyMean(modLSTday,years,months))
+		 
+		selected_LST=modLSTday.mean();
 
-		#select LST
-		selected_LST = ee.Image(monthlyLST.filter(ee.Filter.eq('year',date_year)).filter(ee.Filter.eq('month',date_month)).mean())
+		min_LST=modLSTday.reduce(ee.Reducer.min())
+		max_LST=modLSTday.reduce(ee.Reducer.max())
 
-		collection1 = ee.ImageCollection('MODIS/006/MOD13Q1').select('NDVI').filterDate(startdate,enddate).filterBounds(region_Gh)
+		
 	
-		monthlyndvi = ee.ImageCollection(calcMonthlyMean(collection1,years,months))
+#****************************** NDVI		
 
-		#select ndvi
-		selected_ndvi = ee.Image(monthlyndvi.filter(ee.Filter.eq('year',date_year)).filter(ee.Filter.eq('month',date_month)).mean()).multiply(0.0001)
-
-		startd = ee.Date.fromYMD(date_year,1,1)
-		endd = ee.Date.fromYMD(date_year ,12,31)
-
+		MODIS_NDVI= ee.ImageCollection('MODIS/006/MOD13Q1').select('NDVI').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
 		
-
-		col_lst = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(startd,endd).filterBounds(region_Gh).map(lst_map).mean().clip(region_Gh)
-
-		col_ndvi = ee.ImageCollection('MODIS/006/MOD13Q1').select('NDVI').filterDate(startd,endd).filterBounds(region_Gh).reduce(ee.Reducer.median())
-
-
-
-		######################################## Extract
-
-
-		NDVI_array = ee.Image(col_ndvi.multiply(0.0001)).reduceRegion(ee.Reducer.toList(), region_Gh, 3000).getInfo().get('NDVI_median')
-
-
-		LST_array = ee.Image(col_lst).reduceRegion(ee.Reducer.frequencyHistogram().toList(), region_Gh, 3000).getInfo().get('LST_Day_1km')
-
+		selected_NDVI=MODIS_NDVI
 		
+		NDVI=selected_NDVI.mean().divide(10000).clip(region_Gh)
+		median_NDVI=selected_NDVI.reduce(ee.Reducer.median())
 
-
-######################################## Calculate the dry and wet edges
-		freq = ee.List(LST_array)
-
-
-
-		image_list = ee.List(freq.getInfo())
-
-		t_length = image_list.length().getInfo()
-
-		lowerp = math.ceil(int(t_length) * 1 / 100)
-
-		higherp = math.ceil(int(t_length) * 99 / 100)
-
-
-		LSTmin = freq.slice(0,lowerp + 4000).getInfo()
-
-		LSTmax = freq.slice(0,higherp).getInfo()
-
-
-		NDVImin = ee.List(NDVI_array).slice(0,lowerp + 4000).getInfo()
-
-		NDVImax = ee.List(NDVI_array).slice(0,higherp).getInfo()
-
-
-		a,b = polyfit(NDVImax, LSTmax, 1)     # returns the slope (a) and the intercept (b), respectively
-
-
-
-		a1,b1 = polyfit(NDVImin, LSTmin, 1) 
+#*************************************Linear Regression
 
 
 
 
-		LSTmax = ee.Image(selected_ndvi).multiply(ee.Number(a)).add(ee.Number(b))
+#****************************MIN LST*************************
+ 
+#Dependent: LST
+		y = min_LST
+#Independent: ndvi
+		x = median_NDVI
+#Intercept: b
+		b = ee.Image(1).rename('b')
+#create an image collection with the three variables by concatenating them
+		reg_img = ee.Image.cat(b,x,y);
+#specify the linear regression reducer
+		lr_reducer = ee.Reducer.linearRegression({numX: 2,numY: 1})
+ 
 
-		LSTmin = ee.Image(selected_ndvi).multiply(ee.Number(a1)).add(ee.Number(b1))
+# fit the model
+		fit = reg_img.reduceRegion(lr_reducer,region_Gh.geometry(), 3000, 1e9)
+		fit = fit.combine({"coefficients": ee.Array([[1],[1]])}, false)
 
-		SMI = LSTmax.subtract(selected_LST).divide(LSTmax.subtract(LSTmin)).multiply(0.01)
+ 
+#Get the coefficients as a nested list,
+#cast it to an array, and get just the selected column
+		slo = (ee.Array(fit.get('coefficients')).get([1,0]))
+		int = (ee.Array(fit.get('coefficients')).get([0,0]))
 
-		max = ee.Image(SMI).reduceRegion(ee.Reducer.minMax(), region_Gh, 3000).getInfo()
-		min = ee.Image(SMI).reduceRegion(ee.Reducer.toList().min(), region_Gh, 3000).getInfo()
+
+ 
+ 
+ 
+#******************MAX LST ******************************* 
+ 
+# Dependent: lst
+		y1 = max_LST
+#Independent: ndvi
+		x1 = median_NDVI
+#Intercept: b
+		b1 = ee.Image(1).rename('b')
+#create an image collection with the three variables by concatenating them
+		reg_img1 = ee.Image.cat(b1,x1,y1)
+#specify the linear regression reducer
+		lr_reducer1 = ee.Reducer.linearRegression({numX: 2,numY: 1})
+ 
+
+#fit the model
+		fit1 = reg_img1.reduceRegion(lr_reducer1,region_Gh.geometry(),3000, 1e9)
+		fit1 = fit1.combine({"coefficients": ee.Array([[1],[1]])}, false)
+ 
+#Get the coefficients as a nested list,
+#cast it to an array, and get just the selected column
+		slo1 = (ee.Array(fit1.get('coefficients')).get([1,0]))
+		int1 = (ee.Array(fit1.get('coefficients')).get([0,0]))
+
+		print(slo1,int1)
+ 
+ 
+#****************************SMI*************************
+# LST_max=a*NDVI +b
+# LST_min=a1*NDVI + b1
+
+
+		LST_max=ee.Image(NDVI).multiply(slo1).add(int1)
+
+		LST_min=ee.Image(NDVI).multiply(slo).add(int)
+
+#SMI = (LSTmax – LST) / (LSTmax – LSTmin) 
+
+
+		SMI=ee.Image(LST_max).subtract(selected_LST).divide(ee.Image(LST_max).subtract(LST_min))
+
+		max = ee.Image(SMI).reduceRegion(ee.Reducer.minMax(), region_Gh, 3000).getInfo()['NDVI']
+		min = ee.Image(SMI).reduceRegion(ee.Reducer.toList().min(), region_Gh, 3000).getInfo()['NDVI']
+
+
 
 		vizAnomaly = {
-		'min':-1, 'max':1, 
+		'min':min, 'max':max, 
 		'palette': ','.join(['#730000', '#E60000', '#FFAA00', '#FCD37F', '#FFFF00', '#FFFFFF', '#AAFF55', '#00FFFF', '#00AAFF', '#0000FF', '#0000AA'])
 	  }
 		notes = "SOIL MOISTURE INDEX calculated" + " for  " + str(date_year) + "-" + str(date_month)
