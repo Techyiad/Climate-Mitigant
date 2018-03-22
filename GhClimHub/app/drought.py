@@ -891,9 +891,7 @@ def ndvi_anomaly(options):
 			endDate = str(year) + endMonth
 
 
-			#calculate ndwi for each image in imagecollection
-			l578NDVI = ee.ImageCollection(l5images.merge(l7images)).merge(l8images)	
-			
+
 
 
 						
@@ -1299,10 +1297,7 @@ def SMI(options):
 
 		date_year = int(options["date_year"])
 
-
-		hist_year_start = 2000
-
-		hist_year_end = 2017
+		satelite = options["satelite"]
 	
 		region_selected = str(options["region_selected"])
 		region = options["region"]
@@ -1319,7 +1314,7 @@ def SMI(options):
 				Ghana = ee.FeatureCollection('ft:1wF4uSA3CSYaCa9g93FRNXcL01-ThklMXRu92h-Vr')
 				region_Gh = Ghana .filter(ee.Filter.eq('name', region_selected))  
 
-	
+		
 		year = date_year
 
 		month = date_month
@@ -1336,26 +1331,50 @@ def SMI(options):
 
 	
 #****************************** LST
-		collection = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
+		if satelite=="modis":
+			collection = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
 	
-		modLSTday = collection.map(lst_map)
+			modLSTday = collection.map(lst_map)
 
 		 
-		selected_LST=modLSTday.mean();
+			selected_LST=modLSTday.mean();
 
-		min_LST=modLSTday.reduce(ee.Reducer.min())
-		max_LST=modLSTday.reduce(ee.Reducer.max())
+			min_LST=modLSTday.reduce(ee.Reducer.min())
+			max_LST=modLSTday.reduce(ee.Reducer.max())
+		else:
 
-		
+			l5images = ee.ImageCollection(nl5.combine(btl5).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","B6","SR"],["nir","red","B6","SR"]).map(lst5)
+			l7images = ee.ImageCollection(nl7.combine(btl7).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","B6_VCID_1","SR"],["nir","red","B6","SR"]).map(lst7)
+			l8images = ee.ImageCollection(nl8.combine(btl8).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B5","B4","B10","SR"],["nir","red","B10","SR"]).map(lst8)
+
+			total_col = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+
+			LST = ee.ImageCollection(total_col).filterDate(startDate,endDate)
+			selected_LST=LST.mean();
+
+			min_LST=LST.reduce(ee.Reducer.min())
+			max_LST=LST.reduce(ee.Reducer.max())	
 	
 #****************************** NDVI		
+		if satelite=="modis":
+			MODIS_NDVI= ee.ImageCollection('MODIS/006/MOD13Q1').select('NDVI').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
+		
+			selected_NDVI=MODIS_NDVI
+		
+			NDVI=selected_NDVI.mean().divide(10000).clip(region_Gh)
+			median_NDVI=selected_NDVI.reduce(ee.Reducer.median())
+		else:
+			l5images = nl5.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B4","B3"],["nir","red"]).map(ndvi)
+			l7images = nl7.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B4","B3"],["nir","red"]).map(ndvi)
+			l8images = nl8.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B5","B4"],["nir","red"]).map(ndvi)
 
-		MODIS_NDVI= ee.ImageCollection('MODIS/006/MOD13Q1').select('NDVI').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
+			l578NDVI = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+			selected_year_month_data = ee.ImageCollection(l578NDVI).filterDate(startDate,endDate)
+
+			selected_NDVI=selected_year_month_data 
 		
-		selected_NDVI=MODIS_NDVI
-		
-		NDVI=selected_NDVI.mean().divide(10000).clip(region_Gh)
-		median_NDVI=selected_NDVI.reduce(ee.Reducer.median())
+			NDVI=selected_NDVI.mean().clip(region_Gh)
+			median_NDVI=selected_NDVI.reduce(ee.Reducer.median())
 
 #*************************************Linear Regression
 
@@ -1365,26 +1384,24 @@ def SMI(options):
 #****************************MIN LST*************************
  
 #Dependent: LST
-		y = min_LST
+		y = ee.Image(min_LST)
 #Independent: ndvi
-		x = median_NDVI
+		x = ee.Image(median_NDVI)
 #Intercept: b
 		b = ee.Image(1).rename('b')
 #create an image collection with the three variables by concatenating them
-		reg_img = ee.Image.cat(b,x,y);
-#specify the linear regression reducer
-		lr_reducer = ee.Reducer.linearRegression({numX: 2,numY: 1})
- 
+		reg_img = ee.Image.cat(b,x,y)
 
 # fit the model
-		fit = reg_img.reduceRegion(lr_reducer,region_Gh.geometry(), 3000, 1e9)
-		fit = fit.combine({"coefficients": ee.Array([[1],[1]])}, false)
+		fit = ee.Image(reg_img).reduceRegion(ee.Reducer.linearRegression(2,1),region_Gh.geometry(), 3000)
+		
+		fit = fit.combine({"coefficients": ee.Array([[1],[1]])}, False)
 
- 
+
 #Get the coefficients as a nested list,
 #cast it to an array, and get just the selected column
-		slo = (ee.Array(fit.get('coefficients')).get([1,0]))
-		int = (ee.Array(fit.get('coefficients')).get([0,0]))
+		slo = (ee.Array(fit.get('coefficients')).get([1,0])).getInfo()
+		inte = (ee.Array(fit.get('coefficients')).get([0,0])).getInfo()
 
 
  
@@ -1400,20 +1417,19 @@ def SMI(options):
 		b1 = ee.Image(1).rename('b')
 #create an image collection with the three variables by concatenating them
 		reg_img1 = ee.Image.cat(b1,x1,y1)
-#specify the linear regression reducer
-		lr_reducer1 = ee.Reducer.linearRegression({numX: 2,numY: 1})
- 
-
+		
 #fit the model
-		fit1 = reg_img1.reduceRegion(lr_reducer1,region_Gh.geometry(),3000, 1e9)
-		fit1 = fit1.combine({"coefficients": ee.Array([[1],[1]])}, false)
- 
+		fit1 = ee.Image(reg_img1).reduceRegion(ee.Reducer.linearRegression(2,1),region_Gh.geometry(),3000)
+		
+		fit1 = fit1.combine({"coefficients": ee.Array([[1],[1]])}, False)
+		
+
 #Get the coefficients as a nested list,
 #cast it to an array, and get just the selected column
-		slo1 = (ee.Array(fit1.get('coefficients')).get([1,0]))
-		int1 = (ee.Array(fit1.get('coefficients')).get([0,0]))
+		slo1 = (ee.Array(fit1.get('coefficients')).get([1,0])).getInfo()
+		int1 = (ee.Array(fit1.get('coefficients')).get([0,0])).getInfo()
 
-		print(slo1,int1)
+		
  
  
 #****************************SMI*************************
@@ -1421,18 +1437,20 @@ def SMI(options):
 # LST_min=a1*NDVI + b1
 
 
-		LST_max=ee.Image(NDVI).multiply(slo1).add(int1)
+		LST_max=ee.Image(NDVI).multiply(ee.Number(slo1)).add(ee.Number(int1))
 
-		LST_min=ee.Image(NDVI).multiply(slo).add(int)
+		LST_min=ee.Image(NDVI).multiply(ee.Number(slo)).add(ee.Number(inte))
 
-#SMI = (LSTmax – LST) / (LSTmax – LSTmin) 
 
 
 		SMI=ee.Image(LST_max).subtract(selected_LST).divide(ee.Image(LST_max).subtract(LST_min))
-
-		max = ee.Image(SMI).reduceRegion(ee.Reducer.minMax(), region_Gh, 3000).getInfo()['NDVI']
-		min = ee.Image(SMI).reduceRegion(ee.Reducer.toList().min(), region_Gh, 3000).getInfo()['NDVI']
-
+		if satelite=="modis":
+			max = ee.Image(SMI).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
+			min = ee.Image(SMI).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
+		else:
+			max=ee.Image(SMI).reduceRegion(ee.Reducer.percentile([90]), region_Gh, 300).getInfo()['NDVI']
+			min=ee.Image(SMI).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
+			print(min,max)
 
 
 		vizAnomaly = {
@@ -1447,6 +1465,8 @@ def SMI(options):
 		col = {'mapid':mapid['mapid'],'token':mapid['token'] , 'note':notes,'type':'smi' ,'min':min,'max':max }
 		col['download_data'] = download 
 		return col
+
+
 
 
 
@@ -1477,12 +1497,10 @@ def indices(options):
 			return data
 
 	elif selected_indices == "smi":
-		try:
-			data = SMI(options)
-			return data
-		except ee.EEException as e :
-			data = {'error':'Failed to Compute SOIL MOISTURE INDEX Data . Error Stated::, ' + str(e)}
-			return data
+		
+		data = SMI(options)
+		return data
+
 	elif selected_indices == "lst":
 		
 		data = LST(options)
@@ -1519,6 +1537,7 @@ def indices(options):
 
 
 
+
 def log(img):
 	return ee.Image(img).log()
 
@@ -1548,6 +1567,7 @@ def norm_ppf(x,mean,std):
 
 
 ###### 3 MONTHS SELECTING
+
 def hist_datelist(yearlist,selected):
 	f1 = [11,12]
 	f2 = [12]
@@ -1629,6 +1649,9 @@ def spi(options):
 # set start and end year
 		startyear = 1981
 		endyear = 2017
+
+ 
+
 # make a date object
 		startdate = ee.Date.fromYMD(startyear, 1, 1)
 		enddate = ee.Date.fromYMD(endyear + 1, 12, 30)
@@ -1733,4 +1756,3 @@ def spi(options):
 
 	
 	
-

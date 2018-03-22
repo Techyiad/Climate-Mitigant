@@ -46,7 +46,7 @@ def get_time_series(template_values,collection,point,notes):
 	downloadUrl = features.getDownloadUrl('json')
 	print(downloadUrl)
 	
-	response = urllib.urlopen(downloadUrl)
+	response = urllib.request.urlopen(downloadUrl)
 	json_dict = json.loads(response.read())
 	print(json_dict)
 	dataList = json_dict['features'][0]['properties']['sample']
@@ -193,7 +193,6 @@ def get_timeseries(collection,point,variable):
 	#### RETURN 
 	######################################################
 	return (timeSeries)
-
 
 
 

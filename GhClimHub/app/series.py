@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 import ee
 import datetime as dt
 from numpy import polyfit
@@ -87,10 +87,10 @@ def set_time_series_data(dataList):
 
 
 def get_time_series(template_values,collection,point,notes):
-	TV = template_values
+	TV=template_values
 	dS = TV['series_start']
 	dE = TV['series_end']
-	source = TV['indices']
+	source=TV['indices']
 
 	
 
@@ -98,17 +98,18 @@ def get_time_series(template_values,collection,point,notes):
 	
 
 	## Extract the time series from the collection at the point
-	ee_list = ee.ImageCollection(collection).filterDate(dS,dE).getRegion(ee.Geometry.Point(point),1)
+	ee_list =ee.ImageCollection( collection).filterDate(dS,dE).getRegion(ee.Geometry.Point(point),1)
 
 
 
 
-	## To use getDownloadUrl, data must be placced into a feature collection
-	features = ee.FeatureCollection(ee.Feature(None, {'sample': ee_list}))
+	## To use getDownloadUrl, data must be placced into a feature collection 
+	features = ee.FeatureCollection(
+		ee.Feature(None, {'sample': ee_list}))
 	downloadUrl = features.getDownloadUrl('json')
 	print(downloadUrl)
 	
-	response = urllib.urlopen(downloadUrl)
+	response = urllib.request.urlopen(downloadUrl)
 	json_dict = json.loads(response.read())
 	print(json_dict)
 	dataList = json_dict['features'][0]['properties']['sample']
@@ -116,7 +117,8 @@ def get_time_series(template_values,collection,point,notes):
 	
 	timeSeriesTextData = []
 	timeSeriesGraphData = []
-	timeSeriesTextData, timeSeriesGraphData = set_time_series_data(dataList)
+	timeSeriesTextData, timeSeriesGraphData = set_time_series_data(
+		dataList)
 	
 	print(timeSeriesGraphData)
 	#Update template values
@@ -132,9 +134,10 @@ def get_time_series(template_values,collection,point,notes):
 
 
 #new landsat collection
+
 btl5 = ee.ImageCollection("LANDSAT/LT05/C01/T1_SR").select(["B6"],["SR"])
 btl7 = ee.ImageCollection("LANDSAT/LE07/C01/T1_SR").select(["B6"],["SR"])
-btl8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR").select(["B10"],["SR"])
+btl8= ee.ImageCollection("LANDSAT/LC08/C01/T1_SR").select(["B10"],["SR"])
 
 
 nl5 = ee.ImageCollection("LANDSAT/LT05/C01/T1_TOA")
@@ -144,45 +147,46 @@ nl8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_TOA")
 def vhi(img):
 	property_list = ['system:index','system:time_start', 'system:time_end']
 
-	brightness_temp = ee.Image(img).select("SR").multiply(0.1)
+	brightness_temp=ee.Image(img).select("SR").multiply(0.1)
 
 
 
 	ndvi = ee.Image(img).normalizedDifference(["nir", "red"]).rename("NDVI")
 
 
-	BT_max = ee.Image(brightness_temp).reduce(ee.Reducer.max())
+	BT_max=ee.Image(brightness_temp).reduce(ee.Reducer.max())
 
-	BT_min = ee.Image(brightness_temp).reduce(ee.Reducer.min())
+	BT_min=ee.Image(brightness_temp).reduce(ee.Reducer.min())
 
-	tci = ee.Image(BT_max).subtract(brightness_temp).multiply(100).divide(ee.Image(BT_max).subtract(BT_min))
-
-
-
-	ndvi_min = ee.Image(ndvi).reduceRegion(ee.Reducer.min(),region_Gh,3000).get("NDVI")
-
-	ndvi_max = ee.Image(ndvi).reduceRegion(ee.Reducer.max(),region_Gh,3000).get("NDVI")
-
-	vci = ee.Image(ndvi).subtract(ee.Number(ndvi_min)).multiply(100).divide(ee.Number(ndvi_max).subtract(ee.Number(ndvi_min)))
+	tci=ee.Image(BT_max).subtract(brightness_temp).multiply(100).divide(ee.Image(BT_max).subtract(BT_min))
 
 
-	VHI = ee.Image(vci).multiply(0.5).add(ee.Image(tci).multiply(0.5))
+
+	ndvi_min=ee.Image(ndvi).reduceRegion(ee.Reducer.min(),region_Gh,3000).get("NDVI")
+
+	ndvi_max= ee.Image(ndvi).reduceRegion(ee.Reducer.max(),region_Gh,3000).get("NDVI")
+
+	vci=ee.Image(ndvi).subtract(ee.Number(ndvi_min)).multiply(100).divide(ee.Number(ndvi_max).subtract(ee.Number(ndvi_min)))
+
+
+	VHI= ee.Image(vci).multiply(0.5).add(ee.Image(tci).multiply(0.5))
 
 	VHI_I = VHI.rename("VHI")
 	return VHI_I.copyProperties(img, property_list)
 
 def lst5(img):
 	property_list = ['system:index','system:time_start', 'system:time_end']
-	band_to_toa = ee.Image(img).select(["B6"])
+	band_to_toa=ee.Image(img).select(["B6"])
 
 
-	toa_radiance = ee.Image(band_to_toa).expression('(Ml * band) + Al', {
+	toa_radiance =ee.Image( band_to_toa).expression(
+		'(Ml * band) + Al', {
 		  'Ml': 0.0003342,
 		  'Al': 0.01,
 		  'band': band_to_toa
 		})
 
-	brightness_temp = ee.Image(img).select("SR").multiply(0.1) 
+	brightness_temp=ee.Image(img).select("SR").multiply(0.1) 
 
 
 
@@ -190,21 +194,23 @@ def lst5(img):
 
 
 
-	ndvi_min = ee.Image(ndvi).reduce(ee.Reducer.min())
+	ndvi_min=ee.Image(ndvi).reduce(ee.Reducer.min())
 
-	ndvi_max = ee.Image(ndvi).reduce(ee.Reducer.max())
+	ndvi_max= ee.Image(ndvi).reduce(ee.Reducer.max())
 
-	pv = ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
+	pv= ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
 
 
-	lse = ee.Image(pv).expression('(0.004 * pv_img) + 0.986', {
+	lse=ee.Image( pv).expression(
+		'(0.004 * pv_img) + 0.986', {
 		  'pv_img': pv
 		})         
 
-	lse_band = lse
-	lse_log = ee.Image(lse_band).log()
+	lse_band = lse;
+	lse_log = ee.Image(lse_band).log();
 	p = 14380
-	LST = ee.Image(lse_log).expression('BT / 1 + B10 * (BT / p) * lse_log', {
+	LST = ee.Image(lse_log).expression(
+		'BT / 1 + B10 * (BT / p) * lse_log', {
 		  'p': p,
 		  'BT': brightness_temp,
 		  'B10': toa_radiance,
@@ -215,34 +221,37 @@ def lst5(img):
 def lst7(img):
 	property_list = ['system:index','system:time_start', 'system:time_end']
 
-	band_to_toa = img.select(["B6"])
+	band_to_toa=img.select(["B6"])
 
 
-	toa_radiance = ee.Image(band_to_toa).expression('(Ml * band) + Al', {
+	toa_radiance = ee.Image(band_to_toa).expression(
+		'(Ml * band) + Al', {
 		  'Ml': 0.0003342,
 		  'Al': 0.01,
 		  'band': band_to_toa
 		})
-	brightness_temp = ee.Image(img).select("SR").multiply(0.1) 
+	brightness_temp=ee.Image(img).select("SR").multiply(0.1) 
 
 
 
 	ndvi = ee.Image(img).normalizedDifference(["nir", "red"])
 
-	ndvi_min = ee.Image(ndvi).reduce(ee.Reducer.min())
+	ndvi_min=ee.Image(ndvi).reduce(ee.Reducer.min())
 
-	ndvi_max = ee.Image(ndvi).reduce(ee.Reducer.max())
+	ndvi_max=ee.Image(ndvi).reduce(ee.Reducer.max())
 
-	pv = ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
+	pv= ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
 
 
-	lse = ee.Image(pv).expression('(0.004 * pv_img) + 0.986', {
+	lse= ee.Image(pv).expression(
+		'(0.004 * pv_img) + 0.986', {
 		  'pv_img': pv
 		})       
 	lse_band = lse
 	lse_log = ee.Image(lse_band).log()
 	p = 14380
-	LST = ee.Image(lse_log).expression('BT / 1 + B10 * (BT / p) * lse_log', {
+	LST = ee.Image(lse_log).expression(
+		'BT / 1 + B10 * (BT / p) * lse_log', {
 		  'p': p,
 		  'BT': brightness_temp,
 		  'B10': toa_radiance,
@@ -254,30 +263,33 @@ def lst7(img):
 
 def lst8(img):
 	property_list = ['system:index','system:time_start', 'system:time_end']
-	band_to_toa = img.select(["B10"])
+	band_to_toa= img.select(["B10"])
 
-	toa_radiance = ee.Image(band_to_toa).expression('(Ml * band) + Al', {
+	toa_radiance = ee.Image(band_to_toa).expression(
+		'(Ml * band) + Al', {
 		  'Ml': 0.0003342,
 		  'Al': 0.01,
 		  'band': band_to_toa
 		}).rename('TOA_Radiance')
  
-	brightness_temp = ee.Image(img).select("SR").multiply(0.1)       
+	brightness_temp=ee.Image(img).select("SR").multiply(0.1)       
 
 	ndvi = ee.Image(img).normalizedDifference(["nir", "red"])
 
-	ndvi_min = ee.Image(ndvi).reduce(ee.Reducer.min())
-	ndvi_max = ee.Image(ndvi).reduce(ee.Reducer.max())
+	ndvi_min=ee.Image(ndvi).reduce(ee.Reducer.min())
+	ndvi_max= ee.Image(ndvi).reduce(ee.Reducer.max())
 
-	pv = ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
+	pv= ee.Image(ndvi).subtract(ndvi_min).divide(ee.Image(ndvi_max).subtract(ndvi_min)).pow(2)
 
-	lse = ee.Image(pv).expression('(0.004 * pv_img) + 0.986', {
+	lse= ee.Image(pv).expression(
+		'(0.004 * pv_img) + 0.986', {
 		  'pv_img': pv
 		}).rename('LSE')
-	p = 14380
-	lse_band = lse
-	lse_log = ee.Image(lse_band).log()
-	LST = ee.Image(img).expression('BT / 1 + B10 * (BT / p) * lse_log', {
+	p = 14380;
+	lse_band = lse;
+	lse_log = ee.Image(lse_band).log();
+	LST = ee.Image(img).expression(
+		'BT / 1 + B10 * (BT / p) * lse_log', {
 		  'p': p,
 		  'BT': brightness_temp,
 		  'B10': toa_radiance,
@@ -298,21 +310,21 @@ def cloudfunction(img):
 
 
 
-# calculate ndvi
+# calculate ndvi 
 def ndvi_anom(img):
-	mean = 0.33004655922067055
-	std = 0.11068838329126819
+	mean= 0.33004655922067055
+	std =0.11068838329126819
 	property_list = ['system:index','system:time_start', 'system:time_end']
 	ndvi = img.normalizedDifference(["nir", "red"])
-	ndvi_anom = ee.Image(ndvi).subtract(ee.Number(mean)).divide(ee.Number(std)).rename(["NDVI"]).copyProperties(img, property_list)
+	ndvi_anom=ee.Image(ndvi).subtract(ee.Number(mean)).divide(ee.Number(std)).rename(["NDVI"]).copyProperties(img, property_list)
 	return ndvi_anom
 
 def ndwi_anom(img):
-	mean = -0.2990153174811877
-	std = 0.1001232100835506
+	mean=-0.2990153174811877
+	std= 0.1001232100835506
 	property_list = ['system:index','system:time_start', 'system:time_end']
-	ndwi = img.normalizedDifference(["green", "nir"])
-	ndwi_anom = ee.Image(ndwi).subtract(ee.Number(mean)).divide(ee.Number(std))
+	ndwi=img.normalizedDifference(["green", "nir"])
+	ndwi_anom=ee.Image(ndwi).subtract(ee.Number(mean)).divide(ee.Number(std))
 
 	return ee.Image(ndwi_anom).rename("NDWI").copyProperties(img, property_list)
 
@@ -340,32 +352,32 @@ def anomaly_ndvi(img,ndvi_mean,ndvi_std):
 
 def timelapse_data(options):
 
-	indices = options["indices"]
+	indices=options["indices"]
 
-	series_start = options["series_start"]
+	series_start=options["series_start"]
 
-	series_end = options["series_end"]
+	series_end=options["series_end"]
 
-	satelite = options["satelite"]
+	satelite=options["satelite"]
 
 
-	start_date = ee.Date.fromYMD(int(series_start),1,1)
+	start_date=ee.Date.fromYMD(int(series_start),1,1)
 
-	end_date = ee.Date.fromYMD(int(series_end),12,31)
+	end_date=ee.Date.fromYMD(int(series_end),12,31)
 
-	options["series_start"] = start_date
-	options["series_end"] = end_date
+	options["series_start"]=start_date
+	options["series_end"]=end_date
 
 	region = options["region"]
 	countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
 	
 	global region_Gh,get_data,notes
-	region_Gh = countries.filter(ee.Filter.eq('Country', 'Ghana'))  
+	region_Gh=countries.filter(ee.Filter.eq('Country', 'Ghana'))  
 
 	
 
 
-	if indices == "ndvi anomaly":
+	if indices=="ndvi anomaly":
 		l5images = nl5.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B4","B3"],["nir","red"]).map(ndvi_anom)
 		l7images = nl7.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B4","B3"],["nir","red"]).map(ndvi_anom)
 		l8images = nl8.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B5","B4"],["nir","red"]).map(ndvi_anom)
@@ -375,10 +387,10 @@ def timelapse_data(options):
 		l578NDVI = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
 		selected_year_month_data = ee.ImageCollection(l578NDVI).filterDate(start_date,end_date)
 
-		notes = "Normalized Difference Vegetation Index Anomaly TimeSeries"						
+		notes="Normalized Difference Vegetation Index Anomaly TimeSeries"						
 		return get_time_series(options,selected_year_month_data,region,notes)		
 			
-	elif indices == "ndwi anomaly":
+	elif indices=="ndwi anomaly":
 		l5images = nl5.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B2","B4"],["green","nir"]).map(ndwi_anom)
 		l7images = nl7.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B2","B4"],["green","nir"]).map(ndwi_anom)
 		l8images = nl8.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B3","B5"],["green","nir"]).map(ndwi_anom)
@@ -386,43 +398,43 @@ def timelapse_data(options):
 		l578NDWI = ee.ImageCollection(l5images.merge(l7images)).merge(l8images)	
 
 		selected_year_month_data = ee.ImageCollection(l578NDWI).filterDate(start_date,end_date)
-		NDWI_anom = ee.ImageCollection(selected_year_month_data)
+		NDWI_anom =ee.ImageCollection(selected_year_month_data )
 
-		notes = "Normalized Difference Water Index Anomaly TimeSeries"
+		notes="Normalized Difference Water Index Anomaly TimeSeries"
 		return get_time_series(options,NDWI_anom,region,notes)
 
 
 			
-	elif indices == "precipitation":
+	elif indices=="precipitation":
 		collection1 = ee.ImageCollection('UCSB-CHG/CHIRPS/PENTAD').filterDate(start_date,end_date).filterBounds(region_Gh.geometry())	
 		#select Precipitation
 		selected_Precipitation = ee.ImageCollection(collection1).select('precipitation')
-		notes = "Precipitation  TimeSeries"
+		notes="Precipitation  TimeSeries"
 		return get_time_series(options,selected_Precipitation,region,notes)
-	elif indices == "vhi":
+	elif indices=="vhi":
 
 		l5images = ee.ImageCollection(nl5.combine(btl5).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","SR"],["nir","red","SR"]).map(vhi)
 		l7images = ee.ImageCollection(nl7.combine(btl7).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","SR"],["nir","red","SR"]).map(vhi)
 		l8images = ee.ImageCollection(nl8.combine(btl8).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B5","B4","SR"],["nir","red","SR"]).map(vhi)
 
-		total_col = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+		total_col=ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
 
-		VHI = ee.ImageCollection(total_col).filterDate(start_date,end_date)
+		VHI= ee.ImageCollection(total_col).filterDate(start_date,end_date)
 
-		notes = "Vegetation Health Index TimeSeries"
+		notes="Vegetation Health Index TimeSeries"
 		return get_time_series(options,ee.ImageCollection(VHI),region,notes)	
-	elif indices == "lst":
+	elif indices=="lst":
 		l5images = ee.ImageCollection(nl5.combine(btl5).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","B6","SR"],["nir","red","B6","SR"]).map(lst5)
 		l7images = ee.ImageCollection(nl7.combine(btl7).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","B6_VCID_1","SR"],["nir","red","B6","SR"]).map(lst7)
 		l8images = ee.ImageCollection(nl8.combine(btl8).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B5","B4","B10","SR"],["nir","red","B10","SR"]).map(lst8)
 
-		total_col = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+		total_col=ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
 
-		LST = ee.ImageCollection(total_col).filterDate(start_date,end_date)
-		selected_LST = ee.ImageCollection(LST)
-		notes = "Land Surface Temperature TimeSeries"
+		LST=ee.ImageCollection(total_col).filterDate(start_date,end_date)
+		selected_LST=ee.ImageCollection(LST)
+		notes="Land Surface Temperature TimeSeries"
 		return get_time_series(options,selected_LST,region,notes)
-	elif indices == "smi":
+	elif indices=="smi":
 		collection = ee.ImageCollection('MODIS/006/MOD11A2').select('LST_Day_1km').filterDate(start_date,end_date).filterBounds(region_Gh.goemetry())
 	
 		modLSTday = collection.map(lst_map)
@@ -494,16 +506,19 @@ def timelapse_data(options):
 
 		LSTmin = ee.Image(selected_ndvi).multiply(ee.Number(a1)).add(ee.Number(b1))
 
-		notes = "Soil Moisture Index TimeSeries"
+
+	#   SMI = (LSTmax – LST) / (LSTmax – LSTmin)
+		notes="Soil Moisture Index TimeSeries"
 
 		SMI = LSTmax.subtract(selected_LST).divide(LSTmax.subtract(LSTmin)).multiply(0.01)
 
-		return get_time_series(options,SMI,region,notes)	 
+		return get_time_series(options,SMI,region,notes)
+	
+	 
 
 
 
 
 	
-
 
 

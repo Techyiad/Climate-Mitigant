@@ -31,33 +31,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\chart.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="app\dataset_processor.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="app\drought.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
-    <Compile Include="app\series.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
-    <Compile Include="chart.py" />
-    <Compile Include="dataset_processor.py" />
-    <Compile Include="drought.py" />
+    <Compile Include="app\chart.py" />
+    <Compile Include="app\dataset_processor.py" />
+    <Compile Include="app\drought.py" />
     <Compile Include="manage.py" />
     <Compile Include="GhClimHub\__init__.py" />
     <Compile Include="GhClimHub\settings.py" />
     <Compile Include="GhClimHub\urls.py" />
     <Compile Include="GhClimHub\wsgi.py" />
-    <Compile Include="series.py" />
+    <Compile Include="app\series.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\" />

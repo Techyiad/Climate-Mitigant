@@ -57,8 +57,8 @@ $('#datasource_spi').change(function () {
 	if (eventTypeName.is('[name="smi"]')) {
 		$('#indices_discription').text("Soil moisture is a key variable in controlling the exchange of water and heat energy between the land surface and the atmosphere through evaporation and plant transpiration. As a result,soil moisture plays an important role in the development of weather patterns and the production of precipitation");
 
-		$("#satelite").hide('slow');
-		$("#stext").hide('slow');
+		$("#satelite").show('slow');
+		$("#stext").show('slow');
 	}
 });
 
@@ -111,8 +111,8 @@ $('#comp_indices').change(function () {
 	}
 	if (eventTypeName.is('[name="smi"]')) {
 
-		$("#satelite1").hide('slow');
-		$("#stext1").hide('slow');
+		$("#satelite1").show('slow');
+		$("#stext1").show('slow');
 	}
 });
 
@@ -158,8 +158,8 @@ $('#comp_indices1').change(function () {
 	}
 	if (eventTypeName.is('[name="smi"]')) {
 
-		$("#satelite2").hide('slow');
-		$("#stext2").hide('slow');
+		$("#satelite2").show('slow');
+		$("#stext2").show('slow');
 	}
 });
 
@@ -207,8 +207,8 @@ $('#comp_indices2').change(function () {
 	}
 	if (eventTypeName.is('[name="smi"]')) {
 
-		$("#satelite3").hide('slow');
-		$("#stext3").hide('slow');
+		$("#satelite3").show('slow');
+		$("#stext3").show('slow');
 	}
 });
 
@@ -252,8 +252,8 @@ $('#comp_indices3').change(function () {
 	}
 	if (eventTypeName.is('[name="smi"]')) {
 
-		$("#satelite4").hide('slow');
-		$("#stext4").hide('slow');
+		$("#satelite4").show('slow');
+		$("#stext4").show('slow');
 	}
 });
 

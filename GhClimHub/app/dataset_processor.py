@@ -1,6 +1,8 @@
+﻿###############################################################################
+#                                   Helpers.                                  #
 ###############################################################################
-#                                   Helpers.  #
-###############################################################################
+
+
 
 import ee
 import datetime as dt
@@ -10,10 +12,12 @@ from chart import get_time_series, set_time_series_data
 
 
 ##############################################################################
-#                               Initialization.  #
+#                               Initialization.                               #
 ###############################################################################
 
 #############################
+
+
 try:
    ee.Initialize()
 except :
@@ -21,9 +25,10 @@ except :
 ###ee.Initialize()###
 
 	 
-#countries =
-#ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-#region_Gh = countries.filter(ee.Filter.eq('Country', 'Ghana'))
+#countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+#region_Gh = countries.filter(ee.Filter.eq('Country', 'Ghana'))  
+
+
 
 def _ReadOptions(request):
  
@@ -31,7 +36,7 @@ def _ReadOptions(request):
 			options = {}
 			options["dataset"] = request.POST.get('dataset')
 			options["datasource"] = request.POST.get('datasource')
-			options["date_indices"] = request.POST.get('date_indices')
+			options["date_indices"]=request.POST.get('date_indices')
 			
 	   
 			options["start"] = request.POST.get('start')
@@ -48,9 +53,9 @@ def _ReadOptions(request):
 			options["Variable"] = request.POST.get('Variable')
 			options["satelite"] = request.POST.get('satelite')
 			
-			options["chart_point"] = json.loads(request.POST.get('chart_point')) if request.POST.get("chart_point") is not None else None
+			options["chart_point"]= json.loads( request.POST.get('chart_point')) if request.POST.get("chart_point") is not None else None
 
-			options["region_selected"] = request.POST.get('region_selected')
+			options["region_selected"]=request.POST.get('region_selected')
 
 			options["indices"] = request.POST.get('indices')
 
@@ -71,40 +76,40 @@ def _Getcollection(options,palete):
 	global collection_info,date_info 
 	global notes,name
 	try:	
-		if options["dataset"] == 'NDVI':
-			notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
-			name = "NDVI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
-		elif options["dataset"] == 'EVI':
-			notes = "EVI calculated from Near-IR, Red and Blue bands"
-			name = "EVI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
-		elif options["dataset"] == 'NDWI':
-			notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-			name = "NDWI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
+		if options["dataset"]=='NDVI':
+			notes= "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
+			name="NDVI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
+		elif options["dataset"]=='EVI':
+			notes= "EVI calculated from Near-IR, Red and Blue bands"
+			name="EVI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
+		elif options["dataset"]=='NDWI':
+			notes= "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
+			name="NDWI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
 
 
-		date_info = "Target Peroid from :" + options["start"] + " to " + options["end"]
-		if options["datasource"] == 'M':
+		date_info  = "Target Peroid from :" + options["start"]+ " to "+ options["end"]
+		if options["datasource"]== 'M':
 			 coll = get_modis_collection(options["dataset"],options,palete)
-			 collection_info = "MODIS"	 
+			 collection_info ="MODIS"	 
 		elif options["datasource"] == '8':
-			 coll = get_landsat8_daily_collection(options["dataset"],options,palete)
-			 collection_info = "Landsat 8"
+			 coll=get_landsat8_daily_collection(options["dataset"],options,palete)
+			 collection_info ="Landsat 8"
 		elif options["datasource"] == '7':
-			 coll = get_landsat7_daily_collection(options["dataset"],options,palete)
-			 collection_info = "Landsat 7"
+			 coll=get_landsat7_daily_collection(options["dataset"],options,palete)
+			 collection_info ="Landsat 7"
 		elif options["datasource"] == '5':
-			 coll = get_landsat5_daily_collection(options["dataset"],options,palete)
-			 collection_info = "Landsat 5"
+			 coll=get_landsat5_daily_collection(options["dataset"],options,palete)
+			 collection_info ="Landsat 5"
 		elif options["datasource"] == 'all':
-			 coll = get_landsat457_daily_collection(options["dataset"],options,palete)
+			 coll=get_landsat457_daily_collection(options["dataset"],options,palete)
 		 
-			 collection_info = "Landsats 4/5/7"
+			 collection_info ="Landsats 4/5/7"
 
 
-		col = {'mapid':coll['mapid'],'token':coll['token'] ,'collection_info': collection_info,'date_info':date_info,'notes':notes,'download_data':coll['download_data']}
+		col={'mapid':coll['mapid'],'token':coll['token'] ,'collection_info': collection_info,'date_info':date_info,'notes':notes,'download_data':coll['download_data']}
 		return col
 	except ee.EEException as ex:
-		return {'error':'Failed to Compute Data . Error Stated::, ' + str(ex)}
+		return {'error':'Failed to Compute Data . Error Stated::, '+str(ex)}
 	
 
 
@@ -124,55 +129,54 @@ def chart_it(options,palete):
 	Returns:
 		A ee.Imagecollection where each image has 2 bands RED and NIR and is cloudscore masked or None if collection is empty.
 	"""
-	chart_point = options['chart_point']
+	chart_point=options['chart_point']
 	print(chart_point)
-	point_gh = ee.Geometry.Point(chart_point)
+	point_gh= ee.Geometry.Point(chart_point)
 	global collection_info
 	global date_info 
 	global notes,name
-	if options["dataset"] == 'NDVI':
-		notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
-		name = "NDVI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
-	elif options["dataset"] == 'EVI':
-		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		name = "EVI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
-	elif options["dataset"] == 'NDWI':
-		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		name = "NDWI" + "Target Peroid from :" + options["start"] + " to " + options["end"]
+	if options["dataset"]=='NDVI':
+		notes= "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
+		name="NDVI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
+	elif options["dataset"]=='EVI':
+		notes= "EVI calculated from Near-IR, Red and Blue bands"
+		name="EVI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
+	elif options["dataset"]=='NDWI':
+		notes= "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
+		name="NDWI" +"Target Peroid from :" + options["start"]+ " to "+ options["end"]
 
    
-	date_info = "Target Peroid from :" + options["start"] + " to " + options["end"]
-	if options["datasource"] == 'M':
+	date_info  = "Target Peroid from :" + options["start"]+ " to "+ options["end"]
+	if options["datasource"]== 'M':
 		 coll = get_modis_collection_chart(options["dataset"],options)
 
-		 collection_info = "MODIS"
+		 collection_info ="MODIS"
 		 
 	elif options["datasource"] == '8':
-		 coll = get_landsat8_daily_collection_chart(options["dataset"],options,palete)
-		 collection_info = "Landsat 8"
-		 chart = get_time_series(options,coll,point,notes)
+		 coll=get_landsat8_daily_collection_chart(options["dataset"],options,palete)
+		 collection_info ="Landsat 8"
+		 chart=get_time_series(options,coll,point,notes)
 	elif options["datasource"] == '7':
-		 coll = get_landsat7_daily_collection_chart(options["dataset"],options,palete)
-		 chart = get_time_series(options,coll,point,notes)
-		 collection_info = "Landsat 7"
+		 coll=get_landsat7_daily_collection_chart(options["dataset"],options,palete)
+		 chart=get_time_series(options,coll,point,notes)
+		 collection_info ="Landsat 7"
 	elif options["datasource"] == '5':
-		 coll = get_landsat5_daily_collection_chart(options["dataset"],options,palete)
-		 chart = get_time_series(options,coll,point,notes)
-		 collection_info = "Landsat 5"
+		 coll=get_landsat5_daily_collection_chart(options["dataset"],options,palete)
+		 chart=get_time_series(options,coll,point,notes)
+		 collection_info ="Landsat 5"
 	elif options["datasource"] == 'all':
-		 coll = get_landsat457_daily_collection_chart(options["dataset"],options,palete)
-		 chart = get_time_series(options,coll, point_gh,notes)
+		 coll=get_landsat457_daily_collection_chart(options["dataset"],options,palete)
+		 chart=get_time_series(options,coll, point_gh,notes)
 		 print(chart)
-		 collection_info = "Landsats 4/5/7"
+		 collection_info ="Landsats 4/5/7"
 		 
 	
  
   # send number of images over Channel API to client
-  #  _SendMessage(client_id,"collection-info","info","Your collection contains
-  #  %s images." % collection_size, collection_line2)
+  #  _SendMessage(client_id,"collection-info","info","Your collection contains %s images." % collection_size, collection_line2)
 	
 
-	col = chart
+	col=chart
  
 	return col
 
@@ -213,9 +217,9 @@ def filterRegions(collection,region):
 			raise Exception("No location selected")
 
 def palletedata(palettechoice,palette):
-	palettendwi = ','.join(["#e20000 ", "32cd32", "ffff00", "ff8c00", "#00f9f9", "#3570dd", "0000ff"])
+	palettendwi =','.join(["#e20000 ", "32cd32", "ffff00", "ff8c00", "#00f9f9", "#3570dd", "0000ff"])
 
-	palettehot = ','.join(['#0B0000','#150000','#200000','#150000','#210000','#2B0000','#350000','#400000','#410000','#4A0000','#550000',
+	palettehot=','.join(['#0B0000','#150000','#200000','#150000','#210000','#2B0000','#350000','#400000','#410000','#4A0000','#550000',
   '#560000','#600000','#6A0000','#750000','#760000','#800000','#890000',
   '#940000','#950000','#9F0000','#B40000','#B50000','#BF0000','#D40000','#D50000',
   '#DF0000','#EA0000','#EF0000','#F40000','#FD0000','#FF0A00','#FF1400','#FF1B00',
@@ -223,22 +227,24 @@ def palletedata(palettechoice,palette):
   ,'#FF6A00','#FF7500','#FF7D00','#FF8100','#FF8A00','#FF9500','#FF9E00','#FFA900','#FFB300','#FFB500','#FFBF00','#FFC900',
   '#FFD400','#FFD500','#FFDF00','#FFE900','#FFEA00','#FFFF00','#FFFF10','#FFFF20','#FFFF30','#FFFF3C','#FFFF3C',
   '#FFFF40','#FFFF67','#FFFF7B','#FFFF80','#FFFF8E','#FFFF93','#FFFFAD','#FFFFAF','#FFFFBF','#FFFFCF','#FFFFDF','#FFFFEF','#FFFFFC',
-  '#FFFFFF'])
+  '#FFFFFF' ])
 
-	palettendvi = ','.join(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00'])
+	palettendvi=','.join( ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00'])
 	# A nice EVI palette.
-	paletteevi = ','.join(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf'])
+	paletteevi =','.join( ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf'])
 	
 	if palettechoice is None and palette is not None:
 		ndwiViz = palette
 		return ndwiViz 
 	elif  palettechoice is not None and palette is None :
-		ndwiViz = palettendvi  if palettechoice == 'NDVI' else paletteevi if palettechoice == 'EVI' else palettendwi if palettechoice == 'NDWI' else palettendvi
+		ndwiViz =palettendvi  if palettechoice=='NDVI' else paletteevi if palettechoice=='EVI' else palettendwi if palettechoice=='NDWI' else palettendvi
 		return ndwiViz
 
 collection_line2 = None  # line2 of the information about the collection returned over the channel api
+
+
 cdict = {'red':   ((0.0, 1.0, 1.0), 
-				   (0.1, 1.0, 1.0),  # red
+				   (0.1, 1.0, 1.0),  # red 
 				   (0.4, 1.0, 1.0),  # violet
 				   (1.0, 0.0, 0.0)), # blue
 
@@ -278,10 +284,10 @@ def get_landsat457_daily_collection(dataset,options,palete):
 
 	 # rename the used option values
 	source = options["datasource"]
-	region = options["region"]
+	region=options["region"]
 	start = options["start"]
 	end = options["end"]
-	cloudscore = options["cloudscore"]
+	cloudscore=options["cloudscore"]
 	start = ee.ee_date.Date(start,'GMT')
 	end = ee.Date(end, 'GMT') 
 	
@@ -308,7 +314,7 @@ def get_landsat457_daily_collection(dataset,options,palete):
 	filterRegions(nl5,region)
 
 	l5images = ee.ImageCollection(filterRegions(nl5,region)).map(landsat457_cloud_mask_func)
-	l7images = ee.ImageCollection(filterRegions(nl7,region)).map(landsat457_cloud_mask_func)
+	l7images =ee.ImageCollection(filterRegions(nl7,region)).map(landsat457_cloud_mask_func)
 
 
 
@@ -329,25 +335,25 @@ def get_landsat457_daily_collection(dataset,options,palete):
 
 
 
-	ndwiViz = palete
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
-		dfm = collection.map(landsat457_ndvi_func).mean() 
+		dfm=collection.map(landsat457_ndvi_func).mean() 
 		print(region)
 		if region is not None:
-			geometry = ee.Geometry.Polygon(region)
+			geometry =ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
 			vizAnomaly = {
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
 
 
-			download = getData(dfm, region,options["scale"],options["name"])
+			download= getData(dfm, region,options["scale"],options["name"])
 			print(download)
-			mapid['download_data'] = download
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
@@ -356,28 +362,28 @@ def get_landsat457_daily_collection(dataset,options,palete):
 		'palette':ndwiViz
 	  }
 
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
 			print(download)
-			mapid['download_data'] = download
+			mapid['download_data']=download
 		
 		return mapid
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat457_ndwi_func).mean()  
+		dfm=collection.map(landsat457_ndwi_func).mean()  
 		if region is not None:
 			
-			geometry = ee.Geometry.Polygon(region)
+			geometry =ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
 			vizAnomaly = {
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
@@ -385,14 +391,14 @@ def get_landsat457_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm, region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm, region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		return mapid
 
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func).mean()  
+		dfm=collection.map(landsat457_evi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 
@@ -402,9 +408,9 @@ def get_landsat457_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['EVI']
@@ -412,9 +418,9 @@ def get_landsat457_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		return mapid
 	## How should this function fail gracefully if the inputs are bad?
 	## Should it return an exception?
@@ -451,7 +457,7 @@ def get_landsat5_daily_collection(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
 	coll_name = 'LANDSAT/LT05/C01/T1_TOA'
@@ -473,11 +479,11 @@ def get_landsat5_daily_collection(dataset,options,palete):
 
 
 
-	ndwiViz = palete
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDSI calculated from Norm. Diff. of Near-IR and Red bands"
 		
-		dfm = collection.map(landsat457_ndvi_func).mean()  
+		dfm=collection.map(landsat457_ndvi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
@@ -486,9 +492,9 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
@@ -496,9 +502,9 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'NDSI':
@@ -508,7 +514,7 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		return collection.getMapId(ndwiViz) 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"     
-		dfm = collection.map(landsat457_ndwi_func).mean()  
+		dfm=collection.map(landsat457_ndwi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
@@ -517,9 +523,9 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
@@ -527,14 +533,14 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func).mean()  
+		dfm=collection.map(landsat457_evi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
@@ -543,9 +549,9 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['EVI']
@@ -553,9 +559,9 @@ def get_landsat5_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	## How should this function fail gracefully if the inputs are bad?
@@ -590,7 +596,7 @@ def get_landsat7_daily_collection(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
@@ -610,8 +616,8 @@ def get_landsat7_daily_collection(dataset,options,palete):
 	var_desc = dataset
 	## Select dataset after calculating index
 	collection = ee.ImageCollection(coll_name).filterDate(start,end)
-	collection = collection.map(landsat457_cloud_mask_func)
-	ndwiViz = palete
+	collection=collection.map(landsat457_cloud_mask_func)
+	ndwiViz=palete
 
 	region_selected = str(options["region_selected"])
 
@@ -634,7 +640,7 @@ def get_landsat7_daily_collection(dataset,options,palete):
 
 	if dataset == 'NDVI':
 		notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"    
-		dfm = collection.map(landsat457_ndvi_func).mean()  
+		dfm=collection.map(landsat457_ndvi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
@@ -643,9 +649,9 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
@@ -653,14 +659,14 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat457_ndwi_func).mean()  
+		dfm=collection.map(landsat457_ndwi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
@@ -669,9 +675,9 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
@@ -679,14 +685,14 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func).mean()  
+		dfm=collection.map(landsat457_evi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
@@ -695,9 +701,9 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['EVI']
@@ -705,9 +711,9 @@ def get_landsat7_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	## How should this function fail gracefully if the inputs are bad?
@@ -740,7 +746,7 @@ def get_landsat8_daily_collection(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]           
+	region= options["region"]           
 
 	
 	start = ee.Date(start, 'GMT')
@@ -748,7 +754,7 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		   
 
   
-	ndwiViz = palete
+	ndwiViz=palete
 	palettejet = ['#00008F', '#0000AC', '#0000CF', '#0000DF', '#0000EF', '#0000FF',
 			   '#0010FF', '#0025FF', '#0040FF', '#0050FF', '#0070FF', '#0080FF',
 			   '#009FFF', '#009FFF', '#00AFFF', '#00BFFF', '#00D2FF','#00D2FF','#00DFFF','#00FFFF',
@@ -777,7 +783,7 @@ def get_landsat8_daily_collection(dataset,options,palete):
 	##collection = ee.Imagecollection(coll_name).map(landsat8_cloud_mask_func)
 	if dataset == 'NDVI':
 		notes = "NDSI calculated from Norm. Diff. of Near-IR and Red bands"    
-		dfm = collection.map(landsat8_ndvi_func).mean()  
+		dfm=collection.map(landsat8_ndvi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
@@ -786,9 +792,9 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
@@ -796,35 +802,35 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'NDSI':
 		notes = "NDSI calculated from Norm. Diff. of Green and mid-IR bands"
-		dfm = collection.map(landsat8_ndvi_func).mean()  
+		dfm=collection.map(landsat8_ndvi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
-			mapid = ee.Image(dfm).clip(geometry).getMapId(ndwiViz)
+			mapid=ee.Image(dfm).clip(geometry).getMapId(ndwiViz)
 		else:
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(ndwiViz)
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(ndwiViz)
 		
 		return mapid
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat8_ndwi_func).mean()  
+		dfm=collection.map(landsat8_ndwi_func).mean()  
 		if region is not None:
-			geometry = ee.Geometry.Polygon(region)
+			geometry =ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
 			vizAnomaly = {
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
@@ -832,14 +838,14 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat8_evi_func).mean()  
+		dfm=collection.map(landsat8_evi_func).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
@@ -848,9 +854,9 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['EVI']
@@ -858,9 +864,9 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download
 		
 		return mapid
 	## How should this function fail gracefully if the inputs are bad?
@@ -870,7 +876,7 @@ def get_landsat8_daily_collection(dataset,options,palete):
 		return collection.getMapId() 
 
 #===========================================
-#    MODIS
+#    MODIS 
 #===========================================
 def get_modis_collection(dataset,options,palete):
 	"""Return the 8 or 16 day composite image collection for MODIS
@@ -892,7 +898,7 @@ def get_modis_collection(dataset,options,palete):
 	
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
@@ -907,10 +913,10 @@ def get_modis_collection(dataset,options,palete):
 		region_Gh = Ghana .filter(ee.Filter.eq('name', region_selected))  
 
 
-	ndwiViz = palete
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDSI calculated from Norm. Diff. of Near-IR and Red bands"
-		dfm = collection.select(dataset).mean()  
+		dfm=collection.select(dataset).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
@@ -919,9 +925,9 @@ def get_modis_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
@@ -929,15 +935,15 @@ def get_modis_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download 
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download 
 		return mapid
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
 
-		dfm = collection.select(dataset).mean()  
+		dfm=collection.select(dataset).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
@@ -946,27 +952,27 @@ def get_modis_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
-			print(ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo())
+			print( ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo())
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDWI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDWI']
 			vizAnomaly = {
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download 
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download 
 		return mapid
 
 
 
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR,Red and Blue bands"
-		dfm = collection.select(dataset).mean()  
+		dfm=collection.select(dataset).mean()  
 		if region is not None:
 			geometry = ee.Geometry.Polygon(region)
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
@@ -975,9 +981,9 @@ def get_modis_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
-			download = getData(dfm, region,options["scale"],options["name"])
-			mapid['download_data'] = download
+			mapid=ee.Image(dfm).clip(geometry).getMapId(vizAnomaly)
+			download= getData(dfm, region,options["scale"],options["name"])
+			mapid['download_data']=download
 		else:
 			min = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['EVI']
 			max = ee.Image(dfm.clip(region_Gh)).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['EVI']
@@ -985,9 +991,9 @@ def get_modis_collection(dataset,options,palete):
 		'min':min, 'max':max, 
 		'palette':ndwiViz
 	  }
-			mapid = ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
-			download = getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
-			mapid['download_data'] = download 
+			mapid=ee.Image(dfm).clip(region_Gh).getMapId(vizAnomaly)
+			download= getData(dfm,region_Gh.geometry().getInfo()['coordinates'],options["scale"],options["name"])
+			mapid['download_data']=download 
 		return mapid
  
    
@@ -1003,6 +1009,8 @@ def get_modis_collection(dataset,options,palete):
 #===========================================
 #   chart
 #===========================================
+
+
 def get_modis_collection_chart(dataset,options,palete):
 	"""Return the 8 or 16 day composite image collection for MODIS
 
@@ -1023,24 +1031,24 @@ def get_modis_collection_chart(dataset,options,palete):
 	
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
 	collection = ee.ImageCollection(coll_name).filterDate(start,end)
 
 
-	ndwiViz = palete
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDSI calculated from Norm. Diff. of Near-IR and Red bands"
-		dfm = ee.ImageCollection(collection.select(dataset).mean())
+		dfm=ee.ImageCollection(collection.select(dataset).mean()  )
 
 		return dfm
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
 
-		dfm = ee.ImageCollection(collection.select(dataset).mean()) 
+		dfm=ee.ImageCollection(collection.select(dataset).mean()  ) 
 
 		return dfm
 
@@ -1048,7 +1056,7 @@ def get_modis_collection_chart(dataset,options,palete):
 
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR,Red and Blue bands"
-		dfm = ee.ImageCollection(collection.select(dataset).mean()) 
+		dfm=ee.ImageCollection(collection.select(dataset).mean()  ) 
 
 		return dfm
  
@@ -1072,10 +1080,10 @@ def get_landsat457_daily_collection_chart(dataset,options,palete):
 
 	 # rename the used option values
 	source = options["datasource"]
-	region = options["region"]
+	region=options["region"]
 	start = options["start"]
 	end = options["end"]
-	cloudscore = options["cloudscore"]
+	cloudscore=options["cloudscore"]
 	start = ee.ee_date.Date(start,'GMT')
 	end = ee.Date(end, 'GMT') 
    
@@ -1098,8 +1106,7 @@ def get_landsat457_daily_collection_chart(dataset,options,palete):
 	land7 = ee.ImageCollection(sourceSwitch["land5"])
 	land8 = ee.ImageCollection(sourceSwitch["land7"])
 
-		# only select the images that intersect with the coordinates of point or
-		# region
+		# only select the images that intersect with the coordinates of point or region
 	land5 = filterRegions(land5,region)
 	land7 = filterRegions(land7,region)
 	land8 = filterRegions(land8,region)
@@ -1110,23 +1117,23 @@ def get_landsat457_daily_collection_chart(dataset,options,palete):
 		# merge the 3 collections
 	collection = ee.ImageCollection(land5.merge(land7))
 	collection = ee.ImageCollection(collection.merge(land8)).filterDate(start ,end)
-	collection = collection.map(landsat457_cloud_mask_func)
-	ndwiViz = palete
+	collection=collection.map(landsat457_cloud_mask_func)
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"
-		dfm = ee.ImageCollection(collection.map(landsat457_ndvi_func))
+		dfm= ee.ImageCollection(collection.map(landsat457_ndvi_func))
 
 		return dfm
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat457_ndwi_func)
+		dfm=collection.map(landsat457_ndwi_func)
 
 		return dfm
 
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func)
+		dfm= collection.map(landsat457_evi_func)
 
 		return dfm
 	## How should this function fail gracefully if the inputs are bad?
@@ -1171,7 +1178,7 @@ def get_landsat5_daily_collection_chart(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
 	coll_name = 'LANDSAT/LT5_L1T_TOA'
@@ -1181,22 +1188,22 @@ def get_landsat5_daily_collection_chart(dataset,options,palete):
 	collection = ee.ImageCollection(coll_name).filterDate(start,end)
    
 	collection = filterRegions(collection,region)
-	ndwiViz = palete
+	ndwiViz=palete
 	if dataset == 'NDVI':
 		notes = "NDSI calculated from Norm. Diff. of Near-IR and Red bands"
 		
-		dfm = collection.map(landsat457_ndvi_func)
+		dfm= collection.map(landsat457_ndvi_func)
 
 		return dfm
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"     
-		dfm = collection.map(landsat457_ndwi_func)
+		dfm=   collection.map(landsat457_ndwi_func)
 
 		return dfm
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func)
+		dfm= collection.map(landsat457_evi_func)
 
 		return dfm
 	## How should this function fail gracefully if the inputs are bad?
@@ -1233,7 +1240,7 @@ def get_landsat7_daily_collection_chart(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]
+	region= options["region"]
 	
 	start = ee.Date(start, 'GMT')
 	end = ee.Date(end, 'GMT')
@@ -1246,8 +1253,8 @@ def get_landsat7_daily_collection_chart(dataset,options,palete):
 	var_desc = dataset
 	## Select dataset after calculating index
 	collection = ee.ImageCollection(coll_name).filterDate(start,end)
-	collection = collection.map(landsat457_cloud_mask_func)
-	ndwiViz = palete
+	collection=collection.map(landsat457_cloud_mask_func)
+	ndwiViz=palete
 	if region is not None:
 		 collection.filterBounds(region)
 
@@ -1258,17 +1265,17 @@ def get_landsat7_daily_collection_chart(dataset,options,palete):
 
 	if dataset == 'NDVI':
 		notes = "NDVI calculated from Norm. Diff. of Near-IR and Red bands"    
-		dfm = collection.map(landsat457_ndvi_func)
+		dfm= collection.map(landsat457_ndvi_func)
 
 		return dfm
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat457_ndwi_func)
+		dfm=  collection.map(landsat457_ndwi_func)
 
 		return dfm
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat457_evi_func)
+		dfm= collection.map(landsat457_evi_func)
 
 		return dfm
 	## How should this function fail gracefully if the inputs are bad?
@@ -1299,7 +1306,7 @@ def get_landsat8_daily_collection_chart(dataset,options,palete):
 	source = options["datasource"]
 	start = options["start"]
 	end = options["end"]
-	region = options["region"]           
+	region= options["region"]           
 
 	
 	start = ee.Date(start, 'GMT')
@@ -1307,7 +1314,7 @@ def get_landsat8_daily_collection_chart(dataset,options,palete):
 		   
 
   
-	ndwiViz = palete
+	ndwiViz=palete
    
 
 	coll_name = 'LC8_L1T_TOA'
@@ -1328,11 +1335,11 @@ def get_landsat8_daily_collection_chart(dataset,options,palete):
 
 	elif dataset == 'NDWI':
 		notes = "NDWI calculated from Norm. Diff. of near-IR and mid-IR bands"
-		dfm = collection.map(landsat8_ndwi_func)
+		dfm=  collection.map(landsat8_ndwi_func)
 		return dfm
 	elif dataset == 'EVI':
 		notes = "EVI calculated from Near-IR, Red and Blue bands"
-		dfm = collection.map(landsat8_evi_func)
+		dfm=   collection.map(landsat8_evi_func)
 
 		return dfm
 	## How should this function fail gracefully if the inputs are bad?
@@ -1441,6 +1448,7 @@ def map_collection(collection, opacity, palette, minColorbar, maxColorbar):
 #===========================================
 #    Chart Functions
 #===========================================
+
 def _GetChart2(options):
 	"""Generates html code for a small chart and prepares the creation of a full sceen view by saving
 		the chart options under a unique id in the Memcache.
@@ -1461,8 +1469,7 @@ def _GetChart2(options):
 		return None
 
 	# Generates an image with a band "nd" that contains the NDVI
-	# and a band "system:time_start" that contains the creation date of the image
-	# as seconds since epoch
+	# and a band "system:time_start" that contains the creation date of the image as seconds since epoch
 	def calcValues(img):
 		return (img.select()
 				.addBands(img.metadata("system:time_start").divide(1000).floor())  # convert to seconds
@@ -1470,15 +1477,12 @@ def _GetChart2(options):
 
 	collection = collection.map(calcValues)
 
-	# Extracts the pixel values at a specific point and adds them as array called
-	# "vlaues" to the image properties
+	# Extracts the pixel values at a specific point and adds them as array called "vlaues" to the image properties
 	def getValues(img):
-		# useing that the mean reducer only got one value because the poi_geometry is
-		# just a point
+		# useing that the mean reducer only got one value because the poi_geometry is just a point
 		return img.reduceRegions(ee.Geometry.Point(point), ee.Reducer.mean(),EXPORT_RESOLUTION).makeArray(["system:time_start","nd"],"values")
 
-	# Creates a list of arrays like [[<image1 epoch seconds>,<image1
-	# ndvi>],[<image2 epoch seconds>,<image2 ndvi>],...]
+	# Creates a list of arrays like [[<image1 epoch seconds>,<image1 ndvi>],[<image2 epoch seconds>,<image2 ndvi>],...]
 	# aggregate_array also filters the masked pixels out
 	raw_data = ee.FeatureCollection(collection.map(getValues)).flatten().aggregate_array("values").getInfo()
 
@@ -1486,8 +1490,7 @@ def _GetChart2(options):
 	# style information for the different chart types
 	if regression == "zhuWood":
 
-		# get the regression coefficients at the point of interest (makes chart
-		# creation a lot slower)
+		# get the regression coefficients at the point of interest (makes chart creation a lot slower)
 		image = _GetImage(options)
 		coeff = image.reduceRegion(ee.Reducer.mean(),ee.Geometry.Point(point),EXPORT_RESOLUTION).getInfo()
 
@@ -1510,20 +1513,18 @@ def _GetChart2(options):
 			ndvi = x[1]
 
 			# convert epoch seconds to datetime object
-			# not using the seconds because the Google Visualization API can display
-			# dates nicely
+			# not using the seconds because the Google Visualization API can display dates nicely
 			data.append([datetime.utcfromtimestamp(seconds),ndvi,None])
 
 
 		# calculate and add the values of the regression every 45 days
-		for x in range(seconds_start,seconds_end,45 * 24 * 60 * 60):
+		for x in range(seconds_start,seconds_end,45*24*60*60):
 			offset = x - seconds_start
 
 			# calculate the regression ndvi value
-			reg_ndvi = coeff["a0_sec"] + coeff["a1_sec"] * math.cos((2 * math.pi / (365 * 24 * 60 * 60)) * offset) + coeff["a2_sec"] * math.sin((2 * math.pi / (365 * 24 * 60 * 60)) * offset) + coeff["a3_sec"] * offset
+			reg_ndvi = coeff["a0_sec"] + coeff["a1_sec"] * math.cos((2*math.pi/(365*24*60*60))*offset) + coeff["a2_sec"] * math.sin((2*math.pi/(365*24*60*60))*offset) + coeff["a3_sec"] * offset
 
-			# convert time_struct to datetime and add it with the regression value to
-			# the data
+			# convert time_struct to datetime and add it with the regression value to the data
 			data.append([datetime(*time.gmtime(x)[:6]),None,reg_ndvi])
 
 		trendline = """legend:{position:"bottom"},series:{1:{lineWidth: 1}},"""
@@ -1532,8 +1533,7 @@ def _GetChart2(options):
 		chartArea = "{width: \"50%\"}"
 		per = "DOY"
 
-		# is for all points to display the regression (0_ prefix so it is always the
-		# first)
+		# is for all points to display the regression (0_ prefix so it is always the first)
 		reg_name = "0_%s" % regression
 		yAxis = {reg_name:"number"}
 		for year in range(start,end + 1):
@@ -1560,8 +1560,7 @@ def _GetChart2(options):
 
 
 	# Create the DataTable and load the data into it
-	# more details about the Google Visualization API at
-	# https://developers.google.com/chart/interactive/docs/reference
+	# more details about the Google Visualization API at https://developers.google.com/chart/interactive/docs/reference
 	data_table = gviz_api.DataTable(description)
 	data_table.LoadData(data)
 
@@ -1593,12 +1592,13 @@ def _GetChart2(options):
 #============================
 #    Download Map
 #============================
+
 def getData(collection,geometry,scale,name):
-	path = collection.getDownloadUrl({
+	path=collection.getDownloadUrl({
 		'name': name,
 		'scale':scale,
 		'crs':'EPSG:4326',
-		'region':str(geometry)
+		'region':str( geometry )
 		
 		})
 	return path
