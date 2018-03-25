@@ -11,6 +11,13 @@ $('#datasource_spi').change(function () {
 		$("#stext").hide('slow');
 	}
 
+	if (eventTypeName.is('[name="precipitation anom"]')) {
+		$('#indices_discription').text("This shows the deviation from the monthly total precipitation relative to historical average");
+
+		$("#satelite").hide('slow');
+		$("#stext").hide('slow');
+	}
+
 	if (eventTypeName.is('[name="ndvi anomaly"]')) {
 
 		$('#indices_discription').text("NDVI anomaly is the difference between the average NDVI for a particular month of a given year and the average NDVI for the same month over a specified number of years. This approach can be used to characterize the health of vegetation for a particular month and year relative to what is considered normal, which is a good indicator of drought or declining vegetation health");
@@ -79,6 +86,10 @@ $('#comp_indices').change(function () {
 		$("#satelite1").hide('slow');
 		$("#stext1").hide('slow');
 	}
+	if (eventTypeName.is('[name="precipitation anom"]')) {
+		$("#satelite1").hide('slow');
+		$("#stext1").hide('slow');
+	}
 
 	if (eventTypeName.is('[name="ndvi anomaly"]')) {
 
@@ -121,6 +132,11 @@ $('#comp_indices1').change(function () {
 	var eventTypeName = $("#comp_indices1 option:selected");
 
 	if (eventTypeName.is('[name="precipitation"]')) {
+
+		$("#satelite2").hide('slow');
+		$("#stext2").hide('slow');
+	}
+	if (eventTypeName.is('[name="precipitation anom"]')) {
 
 		$("#satelite2").hide('slow');
 		$("#stext2").hide('slow');
@@ -172,6 +188,12 @@ $('#comp_indices2').change(function () {
 		$("#stext3").hide('slow');
 	}
 
+	if (eventTypeName.is('[name="precipitation anom"]')) {
+
+		$("#satelite3").hide('slow');
+		$("#stext3").hide('slow');
+	}
+
 	if (eventTypeName.is('[name="ndvi anomaly"]')) {
 
 
@@ -216,6 +238,13 @@ $('#comp_indices3').change(function () {
 	var eventTypeName = $("#comp_indices3 option:selected");
 
 	if (eventTypeName.is('[name="precipitation"]')) {
+
+
+		$("#satelite4").hide('slow');
+		$("#stext4").hide('slow');
+	}
+
+	if (eventTypeName.is('[name="precipitation anom"]')) {
 
 
 		$("#satelite4").hide('slow');

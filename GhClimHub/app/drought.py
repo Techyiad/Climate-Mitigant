@@ -795,6 +795,99 @@ def precipitation(options):
 
 
 
+
+#===========================================
+#			PRECIPITATION ANOMALY
+#===========================================
+def precipitation_anom(options):
+
+
+		# rename the used option values
+
+		date_month = int(options["date_month"])
+
+		date_year = int(options["date_year"])
+
+
+	
+
+	
+		region_selected = str(options["region_selected"])
+		region = options["region"]	
+
+		global region_Gh,scale, name
+
+		if region is not None:
+			region_Gh = ee.Geometry.Polygon(region)
+		else:
+			if region_selected == "ghana":
+				countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+				region_Gh = countries.filter(ee.Filter.eq('Country', 'Ghana'))  
+			else:
+				Ghana = ee.FeatureCollection('ft:1wF4uSA3CSYaCa9g93FRNXcL01-ThklMXRu92h-Vr')
+				region_Gh = Ghana .filter(ee.Filter.eq('name', region_selected))  
+
+	
+
+
+	# make a list with years
+		year = date_year
+
+		month = date_month
+
+		endingInDays = monthrange(date_year,month)[1]
+		
+		startMonth = '-' + str(month) + '-01'
+		endMonth = '-' + str(month) + '-' + str(endingInDays)
+  
+
+ #setting up the start and ending date
+		startDate = str(year) + startMonth
+		endDate = str(year) + endMonth
+
+
+	
+		col = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filterBounds(region_Gh.geometry())
+		collection1 = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filterDate(startDate,endDate).filterBounds(region_Gh.geometry())
+	
+
+		#anom = precip- avg_precip divided by std_precip
+		#select Precipitation
+
+
+
+		selected_Precipitation = ee.ImageCollection(collection1).mean()
+
+		std_precip=ee.ImageCollection(col).reduce(ee.Reducer.stdDev())
+		avg_precip=ee.ImageCollection(col).reduce(ee.Reducer.mean())
+
+		precip_anom= ee.Image(selected_Precipitation).subtract(avg_precip).divide(std_precip)
+
+		max = ee.Image(precip_anom).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['precipitation']
+		
+
+		min = ee.Image(precip_anom).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['precipitation']
+		print(min,max)
+
+
+
+
+		vizAnomaly = {
+		'min':min, 'max':max, 
+		'palette': ','.join(['#730000', '#E60000', '#FFAA00', '#FCD37F', '#FFFF00', '#FFFFFF', '#AAFF55', '#00FFFF', '#00AAFF', '#0000FF', '#0000AA'])
+	  }
+		notes = "PRECIPITATION Anomaly calculated" + " for  " + str(date_year) + "-" + str(date_month)
+		name = notes
+		scale = 600
+		download = getData(precip_anom,str(region_Gh.geometry().getInfo()['coordinates']),scale,"Precipitation" + str(date_year) + "-" + str(date_month))
+		mapid = ee.Image(precip_anom).clip(region_Gh).getMapId(vizAnomaly)
+		col = {'mapid':mapid['mapid'],'token':mapid['token'],'note':notes,'type':'precipitation','min':min,'max':max }
+		col['download_data'] = download 
+		return col
+
+
+
+
 #===========================================
 #			NDVI ANOMALY
 #===========================================
@@ -1347,7 +1440,14 @@ def SMI(options):
 			l7images = ee.ImageCollection(nl7.combine(btl7).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B4","B3","B6_VCID_1","SR"],["nir","red","B6","SR"]).map(lst7)
 			l8images = ee.ImageCollection(nl8.combine(btl8).filterBounds(region_Gh.geometry())).map(cloudfunction).select(["B5","B4","B10","SR"],["nir","red","B10","SR"]).map(lst8)
 
-			total_col = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+
+			if year>1999 & year<2015:
+				total_col = ee.ImageCollection(l7images)
+			elif year<1999:
+				total_col = ee.ImageCollection(l5images)
+			elif year>2015:
+				total_col = ee.ImageCollection(l8images)
+
 
 			LST = ee.ImageCollection(total_col).filterDate(startDate,endDate)
 			selected_LST=LST.mean();
@@ -1368,7 +1468,17 @@ def SMI(options):
 			l7images = nl7.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B4","B3"],["nir","red"]).map(ndvi)
 			l8images = nl8.filterBounds(region_Gh.geometry()).map(cloudfunction).select(["B5","B4"],["nir","red"]).map(ndvi)
 
-			l578NDVI = ee.ImageCollection(ee.ImageCollection(l5images).merge(l7images)).merge(l8images)
+
+
+			if year>1999 & year<2015:
+				total_col = ee.ImageCollection(l7images)
+			elif year<1999:
+				total_col = ee.ImageCollection(l5images)
+			elif year>2015:
+				total_col = ee.ImageCollection(l8images)
+
+
+			l578NDVI = total_col
 			selected_year_month_data = ee.ImageCollection(l578NDVI).filterDate(startDate,endDate)
 
 			selected_NDVI=selected_year_month_data 
@@ -1448,9 +1558,9 @@ def SMI(options):
 			max = ee.Image(SMI).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()['NDVI']
 			min = ee.Image(SMI).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
 		else:
-			max=ee.Image(SMI).reduceRegion(ee.Reducer.percentile([90]), region_Gh, 300).getInfo()['NDVI']
-			min=ee.Image(SMI).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()['NDVI']
-			print(min,max)
+			max=2.3
+			min=-2.3
+
 
 
 		vizAnomaly = {
@@ -1494,6 +1604,14 @@ def indices(options):
 			return data
 		except ee.EEException as e :
 			data = {'error':'Failed to Compute  NORMALIZED DIFFERENCE WATER INDEX  ANOMALY Data . Error Stated::, ' + str(e)}
+			return data
+
+	elif selected_indices == "precipitation anom":
+		try:
+			data = precipitation_anom(options)
+			return data
+		except ee.EEException as e :
+			data = {'error':'Failed to Compute  Precipitation   ANOMALY Data . Error Stated::, ' + str(e)}
 			return data
 
 	elif selected_indices == "smi":
