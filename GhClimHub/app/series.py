@@ -9,7 +9,7 @@ import urllib
 from collections import defaultdict
 import json
 import datetime
-ee.Initialize()
+import config
 
 
 def lst_map(img):

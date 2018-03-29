@@ -32,6 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="appengine_config.py" />
+    <Compile Include="config.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\tests.py" />
@@ -118,6 +121,8 @@
     <Content Include="app\static\app\images\hero.jpg" />
     <Content Include="app\static\app\images\IAN AKOTO.png" />
     <Content Include="app\static\app\images\ian.jpg" />
+    <Content Include="app\static\app\images\indexdroughtpic.png" />
+    <Content Include="app\static\app\images\indexdroughtpic2.png" />
     <Content Include="app\static\app\images\KNUST.jpg" />
     <Content Include="app\static\app\images\landzoom.jpg" />
     <Content Include="app\static\app\images\maxresdefault.jpg" />
@@ -186,6 +191,9 @@
     <Content Include="app\templates\app\dataset.html" />
     <Content Include="app\templates\app\index.html" />
     <Content Include="app\templates\app\mail.html" />
+    <Content Include="privatekey.json">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
   </ItemGroup>

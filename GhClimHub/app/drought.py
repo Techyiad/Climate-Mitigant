@@ -5,7 +5,7 @@ from numpy import polyfit
 import pandas as pd
 import math
 from calendar import monthrange
-ee.Initialize()
+
 
 
 
@@ -653,9 +653,10 @@ def ndwi_anomaly(options):
 		if satelite == "landsat":
 			selected_year_month_data = ee.ImageCollection(l578NDWI).filterDate(startDate,endDate).mean()
 
-			col_mean = ee.ImageCollection(l578NDWI).reduce(ee.Reducer.mean())
 
-			col_std = ee.ImageCollection(l578NDWI).reduce(ee.Reducer.stdDev())
+			col_mean = ee.Number(-0.2990153174811877)
+
+			col_std = ee.Number( 0.1001232100835506)
 			
 			NDWI_anom = ee.Image(selected_year_month_data).subtract(col_mean).divide(col_std)
 
@@ -1034,10 +1035,10 @@ def ndvi_anomaly(options):
 
 		elif satelite == "landsat":
 			selected_year_month_data = ee.ImageCollection(l578NDVI).filterDate(startDate,endDate).mean()
+	
+			col_mean = ee.Number( 0.33004655922067055)
 
-			col_mean = ee.ImageCollection(l578NDVI).reduce(ee.Reducer.mean())
-
-			col_std = ee.ImageCollection(l578NDVI).reduce(ee.Reducer.stdDev())
+			col_std = ee.Number(0.11068838329126819)
 			
 			ndvi_anom = ee.Image(selected_year_month_data).subtract(col_mean).divide(col_std)
 
@@ -1322,9 +1323,9 @@ def LST(options):
 
 
 
-		max = ee.Image(selected_LST).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo().get("LST_Day_1km")
+		max = ee.Image(selected_LST).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()["LST_Day_1km"]
 
-		min = ee.Image(selected_LST).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo().get("LST_Day_1km")
+		min = ee.Image(selected_LST).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()["LST_Day_1km"]
 
 		vizAnomaly = {
 		'min':min, 'max':max, 
@@ -1356,9 +1357,9 @@ def LST(options):
 
 		LST = ee.ImageCollection(total_col).filterDate(startDate,endDate).mean()
 		selected_LST = ee.Image(LST)
-		max = ee.Image(selected_LST).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo().get("SR")
+		max = ee.Image(selected_LST).reduceRegion(ee.Reducer.max(), region_Gh, 3000).getInfo()["SR"]
 		print(max)
-		min = ee.Image(selected_LST).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo().get("SR")
+		min = ee.Image(selected_LST).reduceRegion(ee.Reducer.min(), region_Gh, 3000).getInfo()["SR"]
 	
 		vizAnomaly = {
 		'min':0, 'max':max, 
