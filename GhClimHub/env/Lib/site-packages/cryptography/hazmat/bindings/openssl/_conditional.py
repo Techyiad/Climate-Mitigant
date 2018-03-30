@@ -5,40 +5,6 @@
 from __future__ import absolute_import, division, print_function
 
 
-def cryptography_has_cms():
-    return [
-        "BIO_new_CMS",
-        "i2d_CMS_bio_stream",
-        "PEM_write_bio_CMS_stream",
-        "CMS_final",
-        "CMS_sign",
-        "CMS_verify",
-        "CMS_encrypt",
-        "CMS_decrypt",
-        "CMS_add1_signer",
-        "CMS_TEXT",
-        "CMS_NOCERTS",
-        "CMS_NO_CONTENT_VERIFY",
-        "CMS_NO_ATTR_VERIFY",
-        "CMS_NOSIGS",
-        "CMS_NOINTERN",
-        "CMS_NO_SIGNER_CERT_VERIFY",
-        "CMS_NOVERIFY",
-        "CMS_DETACHED",
-        "CMS_BINARY",
-        "CMS_NOATTR",
-        "CMS_NOSMIMECAP",
-        "CMS_NOOLDMIMETYPE",
-        "CMS_CRLFEOL",
-        "CMS_STREAM",
-        "CMS_NOCRL",
-        "CMS_PARTIAL",
-        "CMS_REUSE_DIGEST",
-        "CMS_USE_KEYID",
-        "CMS_DEBUG_DECRYPT",
-    ]
-
-
 def cryptography_has_ec2m():
     return [
         "EC_GF2m_simple_method",
@@ -195,6 +161,10 @@ def cryptography_has_generic_dtls_method():
         "DTLS_method",
         "DTLS_server_method",
         "DTLS_client_method",
+        "SSL_OP_NO_DTLSv1",
+        "SSL_OP_NO_DTLSv1_2",
+        "DTLS_set_link_mtu",
+        "DTLS_get_link_min_mtu",
     ]
 
 
@@ -232,6 +202,7 @@ def cryptography_has_x509_store_ctx_get_issuer():
 
 def cryptography_has_x25519():
     return [
+        "EVP_PKEY_X25519",
         "NID_X25519",
     ]
 
@@ -250,13 +221,27 @@ def cryptography_has_fips():
     ]
 
 
+def cryptography_has_ssl_sigalgs():
+    return [
+        "SSL_CTX_set1_sigalgs_list",
+        "SSL_get_sigalgs",
+    ]
+
+
+def cryptography_has_psk():
+    return [
+        "SSL_CTX_use_psk_identity_hint",
+        "SSL_CTX_set_psk_server_callback",
+        "SSL_CTX_set_psk_client_callback",
+    ]
+
+
 # This is a mapping of
 # {condition: function-returning-names-dependent-on-that-condition} so we can
 # loop over them and delete unsupported names at runtime. It will be removed
 # when cffi supports #if in cdef. We use functions instead of just a dict of
 # lists so we can use coverage to measure which are used.
 CONDITIONAL_NAMES = {
-    "Cryptography_HAS_CMS": cryptography_has_cms,
     "Cryptography_HAS_EC2M": cryptography_has_ec2m,
     "Cryptography_HAS_EC_1_0_2": cryptography_has_ec_1_0_2,
     "Cryptography_HAS_SET_ECDH_AUTO": cryptography_has_set_ecdh_auto,
@@ -300,4 +285,6 @@ CONDITIONAL_NAMES = {
         cryptography_has_evp_pkey_get_set_tls_encodedpoint
     ),
     "Cryptography_HAS_FIPS": cryptography_has_fips,
+    "Cryptography_HAS_SIGALGS": cryptography_has_ssl_sigalgs,
+    "Cryptography_HAS_PSK": cryptography_has_psk,
 }

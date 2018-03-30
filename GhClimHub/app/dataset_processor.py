@@ -9,7 +9,8 @@ import datetime as dt
 import json
 import urllib
 from chart import get_time_series, set_time_series_data
-import config
+
+import numpy 
 
 
 ##############################################################################
@@ -18,7 +19,7 @@ import config
 
 #############################
 
-ee.Initialize(config.credentials)
+ee.Initialize()
 
 	 
 #countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')

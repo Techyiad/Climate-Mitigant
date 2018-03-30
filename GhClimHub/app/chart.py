@@ -5,6 +5,7 @@ import logging
 import urllib
 import ee
 import json
+import numpy
 import calendar, time
 #===========================================
 #  FORMAT_DATA_FOR_HIGHCHARTS

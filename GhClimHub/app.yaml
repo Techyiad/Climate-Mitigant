@@ -16,6 +16,20 @@ handlers:
 libraries:
 - name: MySQLdb
   version: 1.2.5
+- name: ssl
+  version: latest
+- name: numpy
+  version: latest
+
+
+
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'GhClimHub.settings'
+  
+
+
+
 # [END django_app]
 
 # Google App Engine limits application deployments to 10,000 uploaded files per

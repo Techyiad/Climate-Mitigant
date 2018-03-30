@@ -1,7 +1,7 @@
 import numpy as np
 import ee
 import datetime as dt
-from numpy import polyfit
+
 import pandas as pd
 import math
 from calendar import monthrange

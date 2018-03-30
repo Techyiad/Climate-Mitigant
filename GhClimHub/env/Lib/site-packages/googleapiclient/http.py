@@ -63,7 +63,6 @@ except ImportError:
   from oauth2client import _helpers as util
 
 from googleapiclient import _auth
-from googleapiclient import mimeparse
 from googleapiclient.errors import BatchError
 from googleapiclient.errors import HttpError
 from googleapiclient.errors import InvalidChunkSizeError
@@ -75,13 +74,15 @@ from googleapiclient.model import JsonModel
 
 LOGGER = logging.getLogger(__name__)
 
-DEFAULT_CHUNK_SIZE = 512*1024
+DEFAULT_CHUNK_SIZE = 100*1024*1024
 
 MAX_URI_LENGTH = 2048
 
 _TOO_MANY_REQUESTS = 429
 
 DEFAULT_HTTP_TIMEOUT_SEC = 60
+
+_LEGACY_BATCH_URI = 'https://www.googleapis.com/batch'
 
 
 def _should_retry_response(resp_status, content):
@@ -769,10 +770,6 @@ class HttpRequest(object):
     self.response_callbacks = []
     self._in_error_state = False
 
-    # Pull the multipart boundary out of the content-type header.
-    major, minor, params = mimeparse.parse_mime_type(
-        self.headers.get('content-type', 'application/json'))
-
     # The size of the non-media part of the request.
     self.body_size = len(self.body or '')
 
@@ -1091,7 +1088,17 @@ class BatchHttpRequest(object):
       batch_uri: string, URI to send batch requests to.
     """
     if batch_uri is None:
-      batch_uri = 'https://www.googleapis.com/batch'
+      batch_uri = _LEGACY_BATCH_URI
+
+    if batch_uri == _LEGACY_BATCH_URI:
+      LOGGER.warn(
+        "You have constructed a BatchHttpRequest using the legacy batch "
+        "endpoint %s. This endpoint will be turned down on March 25, 2019. "
+        "Please provide the API-specific endpoint or use "
+        "service.new_batch_http_request(). For more details see "
+        "https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html"
+        "and https://developers.google.com/api-client-library/python/guide/batch.",
+        _LEGACY_BATCH_URI)
     self._batch_uri = batch_uri
 
     # Global callback to be called for each individual response in the batch.

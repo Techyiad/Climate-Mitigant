@@ -6,7 +6,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from django.shortcuts import render, HttpResponse
 from django.http import HttpRequest, JsonResponse
 from django.template import RequestContext
-import numpy as np
 import ee
 import datetime as dt
 import types   

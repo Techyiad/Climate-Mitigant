@@ -1,1 +1,26 @@
-django >=1.9, <2
+asn1crypto==0.24.0
+cffi==1.11.5
+cryptography==2.1.4
+Django==1.11.11
+earthengine-api==0.1.135
+enum34==1.1.6
+google-api-python-client==1.6.5
+GoogleAppEngineCloudStorageClient==1.9.22.1
+httplib2==0.10.3
+idna==2.6
+ipaddress==1.0.19
+oauth2client==4.1.2
+pandas==0.22.0
+pip==9.0.1
+pyasn1==0.4.2
+pyasn1-modules==0.2.1
+pycparser==2.18
+PyMySQL==0.8.0
+pyOpenSSL==17.5.0
+python-appengine==1.9.15
+python-dateutil==2.6.1
+pytz==2018.3
+rsa==3.4.2
+setuptools==15.0
+six==1.11.0
+uritemplate==3.0.0

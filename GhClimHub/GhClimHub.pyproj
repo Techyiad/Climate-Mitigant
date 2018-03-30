@@ -31,8 +31,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="appengine_config.py" />
-    <Compile Include="config.py">
+    <Compile Include="appengine_config.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\forms.py" />
@@ -159,6 +158,10 @@
     <Content Include="app\static\app\scripts\easy-responsive-tabs.js" />
     <Content Include="app\static\app\scripts\ee_api_js.js" />
     <Content Include="app\static\app\scripts\ee_api_js_debug.js" />
+    <Content Include="privatekey.json" />
+    <Content Include="requirements.txt">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
     <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
@@ -191,10 +194,6 @@
     <Content Include="app\templates\app\dataset.html" />
     <Content Include="app\templates\app\index.html" />
     <Content Include="app\templates\app\mail.html" />
-    <Content Include="privatekey.json">
-      <Publish>True</Publish>
-    </Content>
-    <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
   </ItemGroup>
   <ItemGroup>
