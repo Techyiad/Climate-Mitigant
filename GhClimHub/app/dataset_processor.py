@@ -9,18 +9,12 @@ import datetime as dt
 import json
 import urllib
 from chart import get_time_series, set_time_series_data
-
 import numpy 
 
 
-##############################################################################
-#                               Initialization.                               #
-###############################################################################
+from google.appengine.api import urlfetch
 
-#############################
-
-ee.Initialize()
-
+urlfetch.set_default_fetch_deadline(45)
 	 
 #countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
 #region_Gh = countries.filter(ee.Filter.eq('Country', 'Ghana'))  

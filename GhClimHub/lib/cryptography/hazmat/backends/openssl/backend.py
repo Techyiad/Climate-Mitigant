@@ -25,8 +25,7 @@ from cryptography.hazmat.backends.openssl.ciphers import _CipherContext
 from cryptography.hazmat.backends.openssl.cmac import _CMACContext
 from cryptography.hazmat.backends.openssl.decode_asn1 import _Integers
 from cryptography.hazmat.backends.openssl.dh import (
-    _DHParameters, _DHPrivateKey, _DHPublicKey,
-    _dh_params_dup
+    _DHParameters, _DHPrivateKey, _DHPublicKey, _dh_params_dup
 )
 from cryptography.hazmat.backends.openssl.dsa import (
     _DSAParameters, _DSAPrivateKey, _DSAPublicKey
@@ -1360,7 +1359,7 @@ class Backend(object):
             ec_cdata, public.x, public.y)
 
         private_value = self._ffi.gc(
-            self._int_to_bn(numbers.private_value), self._lib.BN_free
+            self._int_to_bn(numbers.private_value), self._lib.BN_clear_free
         )
         res = self._lib.EC_KEY_set_private_key(ec_cdata, private_value)
         self.openssl_assert(res == 1)
@@ -1395,7 +1394,7 @@ class Backend(object):
         point = self._ffi.gc(point, self._lib.EC_POINT_free)
 
         value = self._int_to_bn(private_value)
-        value = self._ffi.gc(value, self._lib.BN_free)
+        value = self._ffi.gc(value, self._lib.BN_clear_free)
 
         with self._tmp_bn_ctx() as bn_ctx:
             res = self._lib.EC_POINT_mul(group, point, value, self._ffi.NULL,
@@ -1410,8 +1409,9 @@ class Backend(object):
 
         res = self._lib.EC_KEY_set_public_key(ec_cdata, point)
         self.openssl_assert(res == 1)
-        res = self._lib.EC_KEY_set_private_key(
-            ec_cdata, self._int_to_bn(private_value))
+        private = self._int_to_bn(private_value)
+        private = self._ffi.gc(private, self._lib.BN_clear_free)
+        res = self._lib.EC_KEY_set_private_key(ec_cdata, private)
         self.openssl_assert(res == 1)
 
         evp_pkey = self._ec_cdata_to_evp_pkey(ec_cdata)
@@ -1915,6 +1915,9 @@ class Backend(object):
         evp_pkey = backend._lib.d2i_PrivateKey_bio(bio.bio, self._ffi.NULL)
         self.openssl_assert(evp_pkey != self._ffi.NULL)
         evp_pkey = self._ffi.gc(evp_pkey, self._lib.EVP_PKEY_free)
+        self.openssl_assert(
+            self._lib.EVP_PKEY_id(evp_pkey) == self._lib.EVP_PKEY_X25519
+        )
         return _X25519PrivateKey(self, evp_pkey)
 
     def x25519_generate_key(self):

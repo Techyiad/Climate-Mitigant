@@ -43,6 +43,9 @@
     <Compile Include="app\chart.py" />
     <Compile Include="app\dataset_processor.py" />
     <Compile Include="app\drought.py" />
+    <Compile Include="config.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="manage.py" />
     <Compile Include="GhClimHub\__init__.py" />
     <Compile Include="GhClimHub\settings.py" />

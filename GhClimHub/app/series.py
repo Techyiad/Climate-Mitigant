@@ -2,7 +2,6 @@
 import ee
 import datetime as dt
 from numpy import polyfit
-import pandas as pd
 import math
 from calendar import monthrange
 import urllib
@@ -11,7 +10,8 @@ import json
 import datetime
 
 
-
+from google.appengine.api import urlfetch
+urlfetch.set_default_fetch_deadline(45)
 
 def lst_map(img):
 	return img.multiply(0.02).subtract(273.15).copyProperties(img,['system:time_start','syst em:time_end'])

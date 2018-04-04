@@ -3,6 +3,7 @@ Definition of views.
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+import config
 from django.shortcuts import render, HttpResponse
 from django.http import HttpRequest, JsonResponse
 from django.template import RequestContext
@@ -11,10 +12,21 @@ import datetime as dt
 import types   
 import os
 import json
-from app.dataset_processor import _Getcollection, chart_it, _ReadOptions, palletedata
 
+##############################################################################
+#                               Initialization.                               #
+###############################################################################
+
+#############################
+
+ee.Initialize(config.credentials)
+
+from app.dataset_processor import _Getcollection, chart_it, _ReadOptions, palletedata
 from app.drought import  indices
 from app.series import Options, timelapse_data
+
+
+
 
 
 

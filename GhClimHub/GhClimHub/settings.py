@@ -25,7 +25,7 @@ SECRET_KEY = '3f25fad5-15d2-4f20-8bfb-a5669c849d8c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.ghclimhub.appspot.com']
 
 
 # Application definition
@@ -152,6 +152,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
 
 STATIC_URL = '/static/'
 
