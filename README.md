@@ -22,28 +22,15 @@ The Ghana Climate Hub was developed using Earth Engine API. The structure of the
 Satellite and climate dataset available on Ghana Climate Hub and their respective variables
 
 
-|Data               | Variables      | Spatial Resolution | Temporal resolution | Duration    | References
-|-------------------|----------------|--------------------|---------------------|-------------|-------------------|
-|Landsat-4,-5,-7,-8  LST, NDVI,     |     30m            |    16days           | 1984-present|  NASA/USGS        |
-|                   EVINDWI, SAVI                    
-|                    NDVI                            
-|                    NDWI anomalies                  
-|                    VHI                             
-|-------------------|----------------|--------------------|---------------------|-------------|-------------------|
-|MODIS              |LST, NDVI, EVI  |    250m            |    8-16ays          | 2000-present| NASA              |
-|                   | NDWI,SMI       |                    |                     |             |                   |
-|-------------------|----------------|--------------------|---------------------|-------------|-------------------| 
-|AVHRR              |VHI and         |    4km             |    daily            | 1981-present| NOAA              |
-|                   | NDVI anomaly,  |                    |                     |             |                   |
-|-------------------|----------------|--------------------|---------------------|-------------|-------------------|
-|CHIRPS DAILY       |P, SPI,         |   4.8km            |   daily             | 1980-present|                   |
-|                   | P anomaly      |                    |                     |             |                   |
-|-------------------|----------------|--------------------|---------------------|-------------|------------------ |
-|SENTINEL           |LCI, NDMI,      |  10m, 20m, 60m     |   5days             | 23 June 2015|EUROPEAN           |
-|                   | SAVI, PPR,     |                    |                     | -present    |UNION/ESA/         |
-|                   | NDVI, NWI, EVI |                    |                     |             |COPERNICUS         |
-|-------------------|----------------|--------------------|---------------------|-------------|-------------------|
-
+|Data               | Variables                                               | Spatial Resolution | Temporal resolution | Duration    | References        |
+|-------------------|---------------------------------------------------------|--------------------|---------------------|-------------|-------------------|
+|Landsat-4,-5,-7,-8  LST, NDVI,EVINDWI, SAVI, NDVI, NDWI anomalies,VHI        |     30m            |    16days           | 1984-present|  NASA/USGS        |                    
+|-------------------|---------------------------------------------------------|--------------------|---------------------|-------------|-------------------|
+|MODIS              |LST, NDVI, EVI   NDWI,SMI                                |    250m            |    8-16ays          | 2000-present| NASA              |
+|AVHRR              |VHI and  NDVI anomaly,                                   |    4km             |    daily            | 1981-present| NOAA              |
+|CHIRPS DAILY       |P, SPI,   P anomaly                                      |   4.8km            |   daily             | 1980-present|                   |
+|SENTINEL           |LCI, NDMI,SAVI, PPR,  NDVI, NWI, EVI                     |  10m, 20m, 60m     |   5days             | 23 June 2015--present|EUROPEAN UNION/ESA/ COPERNICUS|
+ 
 
 
 
