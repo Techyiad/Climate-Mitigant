@@ -63,5 +63,52 @@ Satellite and climate dataset available on Ghana Climate Hub and their respectiv
 
 
 
+# Runin the Web App locally
+
+
+## Initialize the web app
+
+ set up a Python development environment, including Python, pip , and virtualenv
+ 
+ install the dependencies by running the below code in your terminal
+ 
+ ```
+ cd gheco-eng/GhClimHub
+ 
+ pip install requirements.txt
+ ```
+
+## Run the app
+
+```
+cd gheco-eng/GhClimHub
+
+
+python manage.py runserver
+
+```
+
+
+# Deploy the web app To App Engine
+
+*  Install Google cloud CLI - check it [here]('https://cloud.google.com/sdk/install')
+
+*  Locate the yamle file in the project and make your configurations
+
+*  finally run:
+```
+gcloud app deploy app.yaml
+
+```
+
+## Sample Web App running
+
+
+
+
+
+# Acknowledgement
+
+
 
 
