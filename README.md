@@ -115,6 +115,7 @@ gcloud app deploy app.yaml
 
 # Acknowledgement
 
+The work reported here has been made possible by the support of Google Cloud Platform and Google Earth Engine for providing sponsorship of this application for the year 2018.
 
 
 
