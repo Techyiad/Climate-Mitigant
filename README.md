@@ -24,8 +24,7 @@ Satellite and climate dataset available on Ghana Climate Hub and their respectiv
 
 |Data               | Variables                                               | Spatial Resolution | Temporal resolution | Duration    | References        |
 |-------------------|---------------------------------------------------------|--------------------|---------------------|-------------|-------------------|
-|Landsat-4,-5,-7,-8  LST, NDVI,EVINDWI, SAVI, NDVI, NDWI anomalies,VHI        |     30m            |    16days           | 1984-present|  NASA/USGS        |                    
-|-------------------|---------------------------------------------------------|--------------------|---------------------|-------------|-------------------|
+|Landsat-4,-5,-7,-8  LST, NDVI,EVINDWI, SAVI, NDVI, NDWI anomalies,VHI        |     30m            |    16days           | 1984-present|  NASA/USGS        | 
 |MODIS              |LST, NDVI, EVI   NDWI,SMI                                |    250m            |    8-16ays          | 2000-present| NASA              |
 |AVHRR              |VHI and  NDVI anomaly,                                   |    4km             |    daily            | 1981-present| NOAA              |
 |CHIRPS DAILY       |P, SPI,   P anomaly                                      |   4.8km            |   daily             | 1980-present|                   |
