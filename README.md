@@ -24,12 +24,44 @@ Satellite and climate dataset available on Ghana Climate Hub and their respectiv
 
 |Data               | Variables                                               | Spatial Resolution | Temporal resolution | Duration    | References        |
 |-------------------|---------------------------------------------------------|--------------------|---------------------|-------------|-------------------|
-|Landsat-4,-5,-7,-8  LST, NDVI,EVINDWI, SAVI, NDVI, NDWI anomalies,VHI        |     30m            |    16days           | 1984-present|  NASA/USGS        | 
+|Landsat-4,-5,-7,-8  LST, NDVI,EVI, NDWI, SAVI, NDVI, NDWI anomalies,VHI        |     30m            |    16days           | 1984-present|  NASA/USGS        | 
 |MODIS              |LST, NDVI, EVI   NDWI,SMI                                |    250m            |    8-16ays          | 2000-present| NASA              |
 |AVHRR              |VHI and  NDVI anomaly,                                   |    4km             |    daily            | 1981-present| NOAA              |
 |CHIRPS DAILY       |P, SPI,   P anomaly                                      |   4.8km            |   daily             | 1980-present|                   |
 |SENTINEL           |LCI, NDMI,SAVI, PPR,  NDVI, NWI, EVI                     |  10m, 20m, 60m     |   5days             | 23 June 2015--present|EUROPEAN UNION/ESA/ COPERNICUS|
  
+
+## Spatial Indexes 
+
+* `LST` - Land Surface Temperature
+
+* `NDVI` - Normalized Difference Vegetation Index
+
+* `NDWI` - Normalized Difference Water Index
+
+* `VHI` - Vegetation Health Index
+
+* `EVI` - Enhanced Vegetation Index
+
+* `P` - Precipitation
+
+* `SPI` - Standardized Precipitation Index
+
+* `SAVI` - Soil-Adjusted Vegetation Index 
+
+* `LCI` - Leaf Chlorophyll Index
+
+
+
+# Structure of the web app
+
+* `Google App Engine` - A serverless framework on GCP for developing and deploying the web application. It is also compactible and easy to ingerate Google Earth engine.The App Engine hosts the Django python framework of the drought monitoring system to scale the application and manage requests from users. The App Engine authenticates to Earth Engine when a user makes a request and then computes based on the algorithms created in the python environment. To find out more [clicke here]('https://cloud.google.com/appengine/docs')
+
+* `Google Earth Engine` - Google Earth Engine combines a multi-petabyte catalog of satellite imagery and geospatial datasets with planetary-scale analysis capabilities and makes it available for scientists, researchers, and developers to detect changes, map trends, and quantify differences on the Earth's surface. For more information [visit Google Earth Engine]('https://earthengine.google.com/')
+
+* `Django Framework` - Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+
+
 
 
 
