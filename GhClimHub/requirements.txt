@@ -19,7 +19,7 @@ pyOpenSSL==17.5.0
 python-appengine==1.9.15
 python-dateutil==2.6.1
 pytz==2018.3
-rsa==3.4.2
+rsa==4.7
 setuptools==15.0
 six==1.11.0
 uritemplate==3.0.0
